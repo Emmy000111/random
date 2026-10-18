@@ -4,29 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#FF4D6D" />
-  <meta name="description" content="PickOne — place your fingers on the screen and let fate decide. A random finger chooser for games, dares and group decisions." />
+  <meta name="description" content="PickOne — the free random finger chooser. Place your fingers on the screen and let fate decide. Perfect for games, dares, and group decisions." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF4D6D'/%3E%3Cstop offset='100%25' stop-color='%23FFC93C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23fff'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23FF4D6D'/%3E%3C/svg%3E" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <title>PickOne — Who's the lucky one?</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-
+  <title>PickOne — Random Finger Chooser</title>
   <style>
     /* ============================================================
-       BASE
+       RESET & BASE
        ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
     html { height: 100%; }
     body {
       height: 100%;
       margin: 0;
       overflow: hidden;
-      overscroll-behavior: none;
-      font-family: 'Nunito', ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, ui-rounded, 'SF Pro Rounded', sans-serif;
       background: #FFF6F3;
       color: #0f172a;
       -webkit-font-smoothing: antialiased;
@@ -34,12 +25,13 @@
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
+      overscroll-behavior: none;
     }
-    button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
+    button { font-family: inherit; -webkit-tap-highlight-color: transparent; cursor: pointer; }
     #app {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       height: 100dvh;
       overflow: hidden;
     }
@@ -51,7 +43,6 @@
     .screen.active { display: block; animation: screen-in 220ms ease-out; }
     .screen[data-screen="chooser"].active { overflow: hidden; }
     .screen.no-scroll { overflow: hidden; }
-
     @keyframes screen-in {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -73,7 +64,7 @@
       background: linear-gradient(90deg, #FF4D6D 0%, #FF6B4A 55%, #FF9F1C 100%);
       color: #fff; font-weight: 900; font-size: 1.125rem; letter-spacing: -0.01em;
       box-shadow: 0 22px 45px -18px rgba(255, 77, 109, 0.95);
-      border: none; cursor: pointer;
+      border: none;
       transition: transform 150ms ease-out, opacity 150ms ease-out;
     }
     .btn-cta:active { transform: scale(0.97); }
@@ -87,8 +78,7 @@
       background: rgba(255,255,255,0.85);
       color: #475569;
       box-shadow: 0 8px 20px -12px rgba(15,23,42,0.5);
-      backdrop-filter: blur(8px);
-      border: none; cursor: pointer;
+      border: none;
       transition: transform 120ms ease-out;
     }
     .btn-icon:active { transform: scale(0.94); }
@@ -100,14 +90,14 @@
       border-radius: 9999px;
       background: #fff; color: #334155;
       box-shadow: 0 6px 18px -8px rgba(255,77,109,0.55);
-      border: none; cursor: pointer;
+      border: none;
       transition: transform 120ms ease-out;
     }
     .btn-back:active { transform: scale(0.94); }
     .btn-back svg { width: 20px; height: 20px; stroke-width: 2.6; }
 
     /* ============================================================
-       HOME SCREEN
+       HOME
        ============================================================ */
     .home-bg {
       min-height: 100%;
@@ -117,13 +107,17 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 1.25rem 0.5rem;
     }
+    .home-logo-row { display: flex; align-items: center; gap: 8px; }
+    .home-brand { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; color: #0f172a; }
     .home-title {
       font-size: 2.1rem; font-weight: 900; line-height: 1.08;
       letter-spacing: -0.02em; color: #0f172a; margin: 0;
+      position: relative;
     }
     .home-sub {
       margin-top: 0.75rem; max-width: 20rem;
       font-size: 15px; font-weight: 600; line-height: 1.6; color: #64748b;
+      position: relative;
     }
     .section-label {
       display: flex; align-items: center; gap: 0.5rem;
@@ -137,7 +131,7 @@
       padding: 1rem; width: 100%;
       background: #fff; border-radius: 1.5rem;
       box-shadow: 0 14px 34px -24px rgba(15,23,42,0.6);
-      border: none; text-align: left; cursor: pointer;
+      border: none; text-align: left;
       transition: transform 120ms ease-out;
     }
     .mode-card:active { transform: scale(0.98); }
@@ -151,9 +145,13 @@
     .mode-title { font-size: 15px; font-weight: 800; line-height: 1.2; color: #0f172a; display: block; }
     .mode-sub   { font-size: 13px; font-weight: 600; color: #94a3b8; margin-top: 2px; display: block; }
     .mode-chevron { width: 20px; height: 20px; color: #cbd5e1; stroke-width: 2.8; flex-shrink: 0; }
+    .home-footer-note {
+      margin-top: 2rem; text-align: center;
+      font-size: 11.5px; font-weight: 600; line-height: 1.6; color: #94a3b8;
+    }
 
     /* ============================================================
-       CHOOSER SCREEN
+       CHOOSER
        ============================================================ */
     .chooser-surface {
       position: absolute; inset: 0;
@@ -177,7 +175,6 @@
       border-radius: 9999px;
       font-size: 14px; font-weight: 800; color: #334155;
       box-shadow: 0 8px 20px -10px rgba(15,23,42,0.4);
-      backdrop-filter: blur(8px);
     }
     .count-pill svg { width: 16px; height: 16px; color: #FF4D6D; stroke-width: 2.8; }
     .chooser-instruction {
@@ -196,12 +193,10 @@
       width: 96px; height: 96px; border-radius: 9999px;
       background: rgba(255,255,255,0.7);
       box-shadow: 0 20px 50px -20px rgba(255,77,109,0.7);
-      backdrop-filter: blur(8px);
       animation: float-slow 4s ease-in-out infinite;
     }
     .chooser-empty-icon svg { width: 40px; height: 40px; color: #FF4D6D; stroke-width: 2.4; }
     .chooser-empty p { max-width: 16rem; font-size: 15px; font-weight: 700; color: #94a3b8; }
-
     .chooser-bottom {
       position: absolute; left: 0; right: 0; bottom: 0; z-index: 20;
       padding-left: 1.25rem; padding-right: 1.25rem;
@@ -218,7 +213,6 @@
       text-align: center;
       font-size: 14px; font-weight: 800; color: #64748b;
       box-shadow: 0 4px 12px -4px rgba(15,23,42,0.15);
-      backdrop-filter: blur(8px);
       animation: pulse-soft 1s ease-in-out infinite;
     }
     @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -229,18 +223,16 @@
       text-align: center;
       font-size: 13px; font-weight: 700; color: #64748b;
       box-shadow: 0 4px 12px -4px rgba(15,23,42,0.15);
-      backdrop-filter: blur(8px);
     }
     .chooser-confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
 
-    /* Winner overlay */
+    /* Winner */
     .winner-card {
       max-width: 28rem; margin: 0 auto;
       padding: 1.25rem;
       background: rgba(255,255,255,0.95);
       border-radius: 1.75rem;
       box-shadow: 0 24px 60px -20px rgba(255,77,109,0.6);
-      backdrop-filter: blur(12px);
       animation: winner-in 320ms cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes winner-in {
@@ -248,180 +240,59 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .winner-header { display: flex; align-items: center; gap: 1rem; }
-    .winner-dot {
-      width: 48px; height: 48px; flex-shrink: 0;
-      border-radius: 9999px;
-      box-shadow: 0 0 0 4px #fff, 0 0 24px currentColor;
-    }
-    .winner-label {
-      font-size: 11px; font-weight: 800; letter-spacing: 0.16em;
-      text-transform: uppercase; color: #94a3b8;
-      margin: 0;
-    }
-    .winner-text {
-      font-size: 1.5rem; font-weight: 900; line-height: 1.15;
-      color: #0f172a; margin: 0;
-    }
+    .winner-dot { width: 48px; height: 48px; flex-shrink: 0; border-radius: 9999px; box-shadow: 0 0 0 4px #fff, 0 0 24px currentColor; }
+    .winner-label { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #94a3b8; margin: 0; }
+    .winner-text { font-size: 1.5rem; font-weight: 900; line-height: 1.15; color: #0f172a; margin: 0; }
     .winner-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
     .winner-actions .btn-cta { flex: 1; font-size: 1rem; padding: 0.875rem 1rem; border-radius: 1rem; }
     .winner-actions .btn-icon { width: 52px; height: 52px; background: #f1f5f9; border-radius: 1rem; box-shadow: none; }
 
     /* ============================================================
-       TOUCH MARKERS
+       MARKERS
        ============================================================ */
-    .marker {
-      position: absolute; pointer-events: none; z-index: 10;
-      transform: translate(-50%, -50%);
-      transition: opacity 220ms ease-out;
-      will-change: left, top;
-    }
+    .marker { position: absolute; pointer-events: none; z-index: 10; transform: translate(-50%, -50%); transition: opacity 220ms ease-out; will-change: left, top; }
     .marker.dimmed { opacity: 0.32; }
-    .marker-inner {
-      position: relative; width: 84px; height: 84px;
-      animation: pop-in 220ms ease-out;
-      transition: width 200ms ease-out, height 200ms ease-out;
-    }
+    .marker-inner { position: relative; width: 84px; height: 84px; animation: pop-in 220ms ease-out; transition: width 200ms ease-out, height 200ms ease-out; }
     .marker.winner .marker-inner { width: 100px; height: 100px; }
-
-    .marker-glow {
-      position: absolute; inset: 0; border-radius: 50%;
-      filter: blur(16px); opacity: 0.5;
-      transition: transform 140ms ease-out, opacity 140ms ease-out;
-    }
+    .marker-glow { position: absolute; inset: 0; border-radius: 50%; filter: blur(16px); opacity: 0.5; transition: transform 140ms ease-out, opacity 140ms ease-out; }
     .marker.highlight .marker-glow { opacity: 0.8; transform: scale(1.15); }
     .marker.winner .marker-glow { opacity: 0.95; transform: scale(1.35); }
-
-    .marker-ring {
-      position: absolute; inset: 0; border-radius: 50%;
-      border: 3px solid; opacity: 0; pointer-events: none;
-    }
-    .marker.winner .marker-ring {
-      opacity: 1;
-      animation: ping-slow 1.3s cubic-bezier(0, 0, 0.2, 1) infinite;
-    }
-
-    .marker-disc {
-      position: absolute; inset: 0; border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.85);
-      background: radial-gradient(circle at 32% 26%, rgba(255,255,255,0.92), var(--color) 62%);
-      box-shadow: 0 10px 26px rgba(15,23,42,0.18);
-      transition: transform 120ms ease-out, box-shadow 140ms ease-out;
-    }
-    .marker.highlight .marker-disc {
-      transform: scale(1.08);
-      box-shadow: 0 0 0 5px color-mix(in srgb, var(--color) 33%, transparent), 0 10px 26px rgba(15,23,42,0.18);
-    }
-    .marker.winner .marker-disc {
-      box-shadow: 0 0 0 7px color-mix(in srgb, var(--color) 33%, transparent), 0 10px 26px rgba(15,23,42,0.18);
-    }
-
-    .marker-dot {
-      position: absolute; left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      width: 17px; height: 17px; border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-    }
-
-    .marker-label {
-      position: absolute; left: 50%; top: 100%;
-      margin-top: 12px; transform: translateX(-50%);
-      white-space: nowrap;
-      padding: 6px 14px; border-radius: 9999px;
-      font-size: 13px; font-weight: 800; color: #fff;
-      box-shadow: 0 8px 20px rgba(15,23,42,0.15);
-      display: none;
-    }
+    .marker-ring { position: absolute; inset: 0; border-radius: 50%; border: 3px solid; opacity: 0; }
+    .marker.winner .marker-ring { opacity: 1; animation: ping-slow 1.3s cubic-bezier(0, 0, 0.2, 1) infinite; }
+    .marker-disc { position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(255,255,255,0.85); background: radial-gradient(circle at 32% 26%, rgba(255,255,255,0.92), var(--color) 62%); box-shadow: 0 10px 26px rgba(15,23,42,0.18); transition: transform 120ms ease-out, box-shadow 140ms ease-out; }
+    .marker.highlight .marker-disc { transform: scale(1.08); box-shadow: 0 0 0 5px rgba(255,77,109,0.25), 0 10px 26px rgba(15,23,42,0.18); }
+    .marker.winner .marker-disc { box-shadow: 0 0 0 7px rgba(255,77,109,0.3), 0 10px 26px rgba(15,23,42,0.18); }
+    .marker-dot { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 17px; height: 17px; border-radius: 50%; background: rgba(255,255,255,0.9); }
+    .marker-label { position: absolute; left: 50%; top: 100%; margin-top: 12px; transform: translateX(-50%); white-space: nowrap; padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: 800; color: #fff; box-shadow: 0 8px 20px rgba(15,23,42,0.15); display: none; }
     .marker.winner .marker-label { display: block; }
-
-    @keyframes ping-slow {
-      0%   { transform: scale(1); opacity: 0.9; }
-      100% { transform: scale(1.9); opacity: 0; }
-    }
-    @keyframes pop-in {
-      0%   { transform: scale(0.3); opacity: 0; }
-      60%  { transform: scale(1.08); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    @keyframes float-slow {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
-    }
+    @keyframes ping-slow { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.9); opacity: 0; } }
+    @keyframes pop-in { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
     /* ============================================================
        TRUTH OR DARE
        ============================================================ */
     .tod-scroll { min-height: 100%; padding: 0 1.25rem 2rem; }
-    .category-tab {
-      flex: 1; padding: 10px 12px;
-      border-radius: 1rem;
-      font-size: 13px; font-weight: 800;
-      background: #fff; color: #64748b;
-      box-shadow: 0 10px 24px -20px rgba(15,23,42,0.8);
-      border: none; cursor: pointer;
-      transition: background 160ms, color 160ms, transform 120ms;
-    }
+    .category-tab { flex: 1; padding: 10px 12px; border-radius: 1rem; font-size: 13px; font-weight: 800; background: #fff; color: #64748b; box-shadow: 0 10px 24px -20px rgba(15,23,42,0.8); border: none; transition: background 160ms, color 160ms, transform 120ms; }
     .category-tab:active { transform: scale(0.95); }
-    .category-tab.active {
-      background: #0f172a; color: #fff;
-      box-shadow: 0 8px 20px -8px rgba(15,23,42,0.4);
-    }
-    .prompt-card {
-      position: relative; overflow: hidden;
-      padding: 1.5rem; border-radius: 1.75rem;
-      box-shadow: 0 24px 60px -30px rgba(15,23,42,0.6);
-      color: #fff;
-      animation: prompt-in 280ms ease-out;
-    }
-    @keyframes prompt-in {
-      from { opacity: 0; transform: translateY(14px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    .category-tab.active { background: #0f172a; color: #fff; box-shadow: 0 8px 20px -8px rgba(15,23,42,0.4); }
+    .prompt-card { position: relative; overflow: hidden; padding: 1.5rem; border-radius: 1.75rem; box-shadow: 0 24px 60px -30px rgba(15,23,42,0.6); color: #fff; animation: prompt-in 280ms ease-out; }
+    @keyframes prompt-in { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .prompt-card-truth { background: linear-gradient(135deg, #6366F1 0%, #A855F7 100%); }
     .prompt-card-dare  { background: linear-gradient(135deg, #FF4D6D 0%, #FF8A3D 100%); }
-    .prompt-label {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
-      color: rgba(255,255,255,0.8);
-    }
+    .prompt-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
     .prompt-label svg { width: 16px; height: 16px; stroke-width: 2.8; }
-    .prompt-text {
-      margin: 1rem 0 0;
-      font-size: 22px; font-weight: 900; line-height: 1.35; color: #fff;
-    }
-    .prompt-empty {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.75rem; height: 220px;
-      border: 2px dashed #e2e8f0; border-radius: 1.75rem;
-      background: rgba(255,255,255,0.6);
-      padding: 0 2rem; text-align: center;
-    }
+    .prompt-text { margin: 1rem 0 0; font-size: 22px; font-weight: 900; line-height: 1.35; color: #fff; }
+    .prompt-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; height: 220px; border: 2px dashed #e2e8f0; border-radius: 1.75rem; background: rgba(255,255,255,0.6); padding: 0 2rem; text-align: center; }
     .prompt-empty svg { width: 32px; height: 32px; color: #cbd5e1; stroke-width: 2.4; }
     .prompt-empty p { font-size: 15px; font-weight: 700; color: #94a3b8; }
-
-    .btn-mode {
-      flex: 1; padding: 1.25rem 1rem;
-      border-radius: 1.5rem;
-      font-size: 18px; font-weight: 900; color: #fff;
-      border: none; cursor: pointer;
-      box-shadow: 0 8px 24px -8px rgba(15,23,42,0.3);
-      transition: transform 120ms ease-out, filter 160ms;
-    }
+    .btn-mode { flex: 1; padding: 1.25rem 1rem; border-radius: 1.5rem; font-size: 18px; font-weight: 900; color: #fff; border: none; box-shadow: 0 8px 24px -8px rgba(15,23,42,0.3); transition: transform 120ms ease-out, filter 160ms; }
     .btn-mode:active { transform: scale(0.97); }
     .btn-mode-truth { background: #6366F1; }
     .btn-mode-truth.active { background: linear-gradient(135deg, #6366F1, #A855F7); }
     .btn-mode-dare  { background: #FF4D6D; }
     .btn-mode-dare.active  { background: linear-gradient(135deg, #FF4D6D, #FF8A3D); }
-
-    .btn-secondary {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; padding: 1rem;
-      border-radius: 1.375rem;
-      background: #fff; color: #334155;
-      font-size: 15px; font-weight: 800;
-      border: none; cursor: pointer;
-      box-shadow: 0 14px 30px -24px rgba(15,23,42,0.8);
-      transition: transform 120ms ease-out;
-    }
+    .btn-secondary { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 1rem; border-radius: 1.375rem; background: #fff; color: #334155; font-size: 15px; font-weight: 800; border: none; box-shadow: 0 14px 30px -24px rgba(15,23,42,0.8); transition: transform 120ms ease-out; }
     .btn-secondary:active { transform: scale(0.98); }
     .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-secondary svg { width: 16px; height: 16px; stroke-width: 2.8; }
@@ -429,91 +300,45 @@
     /* ============================================================
        YES / NO
        ============================================================ */
-    .yn-wrap {
-      min-height: 100%;
-      display: flex; flex-direction: column;
-    }
-    .yn-display {
-      flex: 1;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 260px;
-      padding: 0 1.5rem;
-    }
-    .yn-thinking {
-      display: grid; place-items: center;
-      width: 176px; height: 176px; border-radius: 9999px;
-      background: #fff;
-      box-shadow: 0 24px 60px -28px rgba(15,23,42,0.6);
-      font-size: 3rem; font-weight: 900; color: #cbd5e1;
-      animation: wiggle 0.6s ease-in-out infinite;
-    }
-    @keyframes wiggle {
-      0%, 100% { transform: rotate(-3deg); }
-      50%      { transform: rotate(3deg); }
-    }
-    .yn-answer {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      width: 224px; height: 224px; border-radius: 9999px;
-      color: #fff;
-      box-shadow: 0 30px 70px -30px rgba(15,23,42,0.7);
-      animation: answer-in 320ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes answer-in {
-      from { opacity: 0; transform: scale(0.7) rotate(-6deg); }
-      to   { opacity: 1; transform: scale(1) rotate(0); }
-    }
+    .yn-wrap { min-height: 100%; display: flex; flex-direction: column; }
+    .yn-display { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 260px; padding: 0 1.5rem; }
+    .yn-thinking { display: grid; place-items: center; width: 176px; height: 176px; border-radius: 9999px; background: #fff; box-shadow: 0 24px 60px -28px rgba(15,23,42,0.6); font-size: 3rem; font-weight: 900; color: #cbd5e1; animation: wiggle 0.6s ease-in-out infinite; }
+    @keyframes wiggle { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+    .yn-answer { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 224px; height: 224px; border-radius: 9999px; color: #fff; box-shadow: 0 30px 70px -30px rgba(15,23,42,0.7); animation: answer-in 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes answer-in { from { opacity: 0; transform: scale(0.7) rotate(-6deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
     .yn-answer svg { width: 48px; height: 48px; stroke-width: 3.4; }
     .yn-answer span { font-size: 2.25rem; font-weight: 900; letter-spacing: -0.02em; }
     .yn-yes { background: linear-gradient(135deg, #2ED9A3, #38BDF8); }
     .yn-no  { background: linear-gradient(135deg, #FF4D6D, #FF8A3D); }
-    .yn-tally {
-      margin-top: 1.5rem;
-      display: flex; align-items: center; justify-content: center; gap: 1rem;
-      font-size: 12px; font-weight: 800; letter-spacing: 0.14em;
-      text-transform: uppercase; color: #94a3b8;
-    }
+    .yn-tally { margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #94a3b8; }
 
     /* ============================================================
        SETTINGS
        ============================================================ */
-    .settings-row {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem;
-      background: #fff; border-radius: 1.5rem;
-      box-shadow: 0 14px 34px -26px rgba(15,23,42,0.7);
-    }
-    .settings-icon {
-      display: grid; place-items: center;
-      width: 44px; height: 44px; flex-shrink: 0;
-      border-radius: 1rem;
-      background: #FFF0EB; color: #FF4D6D;
-    }
+    .settings-row { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #fff; border-radius: 1.5rem; box-shadow: 0 14px 34px -26px rgba(15,23,42,0.7); }
+    .settings-icon { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 1rem; background: #FFF0EB; color: #FF4D6D; }
     .settings-icon svg { width: 20px; height: 20px; stroke-width: 2.6; }
     .settings-title { font-size: 15px; font-weight: 800; line-height: 1.2; color: #0f172a; }
     .settings-desc  { font-size: 12.5px; font-weight: 600; line-height: 1.35; color: #94a3b8; margin-top: 2px; }
-    .switch {
-      position: relative;
-      width: 48px; height: 28px; flex-shrink: 0;
-      border-radius: 9999px;
-      background: #e2e8f0;
-      border: none; cursor: pointer;
-      transition: background 200ms;
-    }
-    .switch::after {
-      content: '';
-      position: absolute; top: 2px; left: 2px;
-      width: 24px; height: 24px;
-      border-radius: 9999px;
-      background: #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-      transition: transform 200ms;
-    }
+    .switch { position: relative; width: 48px; height: 28px; flex-shrink: 0; border-radius: 9999px; background: #e2e8f0; border: none; transition: background 200ms; }
+    .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; border-radius: 9999px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: transform 200ms; }
     .switch[aria-checked="true"] { background: #FF4D6D; }
     .switch[aria-checked="true"]::after { transform: translateX(20px); }
 
     /* ============================================================
-       REDUCED MOTION
+       UTILITIES
        ============================================================ */
+    .flex { display: flex; } .items-center { align-items: center; } .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; } .flex-1 { flex: 1; } .flex-col { flex-direction: column; }
+    .min-w-0 { min-width: 0; } .mt-1 { margin-top: 0.25rem; } .mt-2 { margin-top: 0.5rem; } .mt-3 { margin-top: 0.75rem; }
+    .mt-5 { margin-top: 1.25rem; } .mt-6 { margin-top: 1.5rem; } .mt-7 { margin-top: 1.75rem; } .mt-8 { margin-top: 2rem; }
+    .pb-2 { padding-bottom: 0.5rem; } .pb-3 { padding-bottom: 0.75rem; } .pb-10 { padding-bottom: 2.5rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; } .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .relative { position: relative; }
+    .text-center { text-align: center; }
+    .max-w-md { max-width: 28rem; } .mx-auto { margin-left: auto; margin-right: auto; }
+    .h-1 { height: 0.25rem; } .w-1 { width: 0.25rem; } .rounded-full { border-radius: 9999px; } .bg-slate-300 { background: #cbd5e1; }
+
     @media (prefers-reduced-motion: reduce) {
       .screen.active, .marker-inner, .winner-card, .yn-answer, .prompt-card { animation: none !important; }
       .chooser-empty-icon, .yn-thinking { animation: none !important; }
@@ -521,118 +346,82 @@
     }
   </style>
 </head>
-
 <body>
 <div id="app">
 
-  <!-- ============================================================
-       HOME
-       ============================================================ -->
+  <!-- ============================================================ HOME ============================================================ -->
   <section class="screen active" data-screen="home">
     <div class="home-bg">
       <header class="home-header safe-top">
-        <div class="flex items-center gap-2">
+        <div class="home-logo-row">
           <svg width="36" height="36" viewBox="0 0 64 64" aria-label="PickOne logo">
-            <defs>
-              <linearGradient id="logo-g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#FF4D6D"/>
-                <stop offset="55%" stop-color="#FF8A3D"/>
-                <stop offset="100%" stop-color="#FFC93C"/>
-              </linearGradient>
-            </defs>
+            <defs><linearGradient id="logo-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF4D6D"/><stop offset="55%" stop-color="#FF8A3D"/><stop offset="100%" stop-color="#FFC93C"/></linearGradient></defs>
             <circle cx="32" cy="32" r="30" fill="url(#logo-g)"/>
             <circle cx="32" cy="32" r="30" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="2"/>
-            <circle cx="32" cy="13.5" r="4.2" fill="#fff" fill-opacity="0.55"/>
-            <circle cx="48.5" cy="40.5" r="4.2" fill="#fff" fill-opacity="0.55"/>
-            <circle cx="15.5" cy="40.5" r="4.2" fill="#fff"/>
-            <circle cx="32" cy="32" r="12.5" fill="#fff"/>
-            <circle cx="32" cy="32" r="6.4" fill="url(#logo-g)"/>
+            <circle cx="32" cy="13.5" r="4.2" fill="#fff" fill-opacity="0.55"/><circle cx="48.5" cy="40.5" r="4.2" fill="#fff" fill-opacity="0.55"/><circle cx="15.5" cy="40.5" r="4.2" fill="#fff"/>
+            <circle cx="32" cy="32" r="12.5" fill="#fff"/><circle cx="32" cy="32" r="6.4" fill="url(#logo-g)"/>
           </svg>
-          <span class="text-xl font-black tracking-tight text-slate-900">PickOne</span>
+          <span class="home-brand">PickOne</span>
         </div>
         <div class="flex items-center gap-2">
           <button id="home-sound-btn" class="btn-icon" aria-label="Toggle sound" aria-pressed="true">
-            <i data-lucide="volume-2"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
           </button>
           <button data-nav="settings" class="btn-icon" aria-label="Open settings">
-            <i data-lucide="settings"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
         </div>
       </header>
 
       <main class="px-5 pb-10">
         <div class="relative mt-6">
-          <div class="absolute -left-10 -top-6 h-28 w-28 rounded-full bg-[#FFC93C]/40 blur-2xl"></div>
-          <div class="absolute -right-8 top-10 h-24 w-24 rounded-full bg-[#FF4D6D]/30 blur-2xl"></div>
-          <h1 class="home-title relative">Who's the<br>lucky one?</h1>
-          <p class="home-sub relative">Place your fingers on the screen and let fate decide.</p>
+          <h1 class="home-title">Who's the<br>lucky one?</h1>
+          <p class="home-sub">Place your fingers on the screen and let fate decide.</p>
         </div>
 
         <button class="btn-cta mt-7" data-nav="chooser">
-          <i data-lucide="hand"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
           Start Choosing
         </button>
 
         <div class="section-label">
-          <i data-lucide="dices"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="16" r="1.5"/><circle cx="12" cy="12" r="1.5"/></svg>
           Quick modes
         </div>
 
         <div class="flex flex-col gap-3 mt-3">
           <button class="mode-card" data-nav="chooser">
-            <span class="mode-icon" style="background:linear-gradient(135deg,#FF4D6D,#FF8A3D)">
-              <i data-lucide="hand"></i>
-            </span>
-            <span class="flex-1 min-w-0">
-              <span class="mode-title">Random Finger Chooser</span>
-              <span class="mode-sub">Everyone touches, one gets picked</span>
-            </span>
-            <i data-lucide="chevron-right" class="mode-chevron"></i>
+            <span class="mode-icon" style="background:linear-gradient(135deg,#FF4D6D,#FF8A3D)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span>
+            <span class="flex-1 min-w-0"><span class="mode-title">Random Finger Chooser</span><span class="mode-sub">Everyone touches, one gets picked</span></span>
+            <svg class="mode-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </button>
-
           <button class="mode-card" data-nav="truth">
-            <span class="mode-icon" style="background:linear-gradient(135deg,#A855F7,#F472B6)">
-              <i data-lucide="sparkles"></i>
-            </span>
-            <span class="flex-1 min-w-0">
-              <span class="mode-title">Truth or Dare</span>
-              <span class="mode-sub">Spill it or do it</span>
-            </span>
-            <i data-lucide="chevron-right" class="mode-chevron"></i>
+            <span class="mode-icon" style="background:linear-gradient(135deg,#A855F7,#F472B6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></span>
+            <span class="flex-1 min-w-0"><span class="mode-title">Truth or Dare</span><span class="mode-sub">Spill it or do it</span></span>
+            <svg class="mode-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </button>
-
           <button class="mode-card" data-nav="yesno">
-            <span class="mode-icon" style="background:linear-gradient(135deg,#38BDF8,#2ED9A3)">
-              <i data-lucide="help-circle"></i>
-            </span>
-            <span class="flex-1 min-w-0">
-              <span class="mode-title">Yes or No</span>
-              <span class="mode-sub">Let the app decide</span>
-            </span>
-            <i data-lucide="chevron-right" class="mode-chevron"></i>
+            <span class="mode-icon" style="background:linear-gradient(135deg,#38BDF8,#2ED9A3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+            <span class="flex-1 min-w-0"><span class="mode-title">Yes or No</span><span class="mode-sub">Let the app decide</span></span>
+            <svg class="mode-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </button>
         </div>
 
-        <p class="mt-8 text-center text-[11.5px] font-semibold leading-relaxed text-slate-400">
-          Works with one shared touchscreen. PickOne can't tell who owns which finger — so gather around a single phone or tablet.
-        </p>
+        <p class="home-footer-note">Works with one shared touchscreen. PickOne can't tell who owns which finger — so gather around a single phone or tablet.</p>
       </main>
     </div>
   </section>
 
-  <!-- ============================================================
-       CHOOSER
-       ============================================================ -->
+  <!-- ============================================================ CHOOSER ============================================================ -->
   <section class="screen no-scroll" data-screen="chooser">
     <div id="chooser-surface" class="chooser-surface"></div>
-
     <div class="chooser-top">
       <div class="chooser-top-row">
         <button id="chooser-back" class="btn-back" aria-label="Back to home">
-          <i data-lucide="arrow-left"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
         </button>
         <div class="count-pill">
-          <i data-lucide="users"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           <span id="chooser-count">0 fingers</span>
         </div>
       </div>
@@ -640,178 +429,129 @@
     </div>
 
     <div id="chooser-empty" class="chooser-empty">
-      <div class="chooser-empty-icon"><i data-lucide="hand"></i></div>
+      <div class="chooser-empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+      </div>
       <p>One screen, many fingers. Last one standing gets picked.</p>
     </div>
 
     <div class="chooser-bottom">
       <div id="chooser-notice" class="chooser-notice" style="display:none"></div>
-
       <button id="chooser-choose-btn" class="btn-cta">
-        <i data-lucide="hand"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
         Choose for Me
       </button>
-
-      <div id="chooser-choosing" class="chooser-choosing" style="display:none">
-        Picking a winner…
-      </div>
-
+      <div id="chooser-choosing" class="chooser-choosing" style="display:none">Picking a winner…</div>
       <div id="chooser-result" style="display:none">
         <div class="winner-card">
           <div class="winner-header">
             <div id="winner-dot" class="winner-dot"></div>
-            <div class="min-w-0">
-              <p class="winner-label">Winner</p>
-              <p class="winner-text">You're the chosen one!</p>
-            </div>
+            <div class="min-w-0"><p class="winner-label">Winner</p><p class="winner-text">You're the chosen one!</p></div>
           </div>
           <div class="winner-actions">
             <button id="play-again-btn" class="btn-cta">
-              <i data-lucide="rotate-ccw"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
               Play Again
             </button>
             <button id="winner-home-btn" class="btn-icon" aria-label="Back to home">
-              <i data-lucide="home"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
             </button>
           </div>
         </div>
       </div>
     </div>
-
     <canvas id="chooser-confetti" class="chooser-confetti"></canvas>
   </section>
 
-  <!-- ============================================================
-       TRUTH OR DARE
-       ============================================================ -->
+  <!-- ============================================================ TRUTH OR DARE ============================================================ -->
   <section class="screen" data-screen="truth">
     <div class="tod-scroll safe-top">
       <header class="flex items-center gap-3 pb-3">
-        <button class="btn-back" data-nav="home" aria-label="Back">
-          <i data-lucide="arrow-left"></i>
-        </button>
-        <h2 class="text-lg font-extrabold tracking-tight text-slate-800">Truth or Dare</h2>
+        <button class="btn-back" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button>
+        <h2 style="font-size:1.125rem;font-weight:800;letter-spacing:-0.02em;color:#1e293b;margin:0">Truth or Dare</h2>
       </header>
-
       <div class="flex gap-2 mt-1">
         <button class="category-tab active" data-category="party">🎉 Party</button>
         <button class="category-tab" data-category="family">🧸 Family</button>
         <button class="category-tab" data-category="spicy">🌶️ Spicy</button>
       </div>
-
       <div class="mt-5">
         <div id="prompt-empty" class="prompt-empty">
-          <i data-lucide="sparkles"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
           <p>Pick Truth or Dare to get your first prompt.</p>
         </div>
         <div id="prompt-card" class="prompt-card prompt-card-dare" style="display:none">
           <div id="prompt-label-wrap" class="prompt-label">
-            <i id="prompt-icon" data-lucide="flame"></i>
+            <svg id="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
             <span id="prompt-label">DARE</span>
           </div>
           <p id="prompt-text" class="prompt-text"></p>
         </div>
       </div>
-
       <div class="flex gap-3 mt-5">
         <button id="btn-truth" class="btn-mode btn-mode-truth">Truth</button>
         <button id="btn-dare" class="btn-mode btn-mode-dare">Dare</button>
       </div>
-
       <button id="next-question-btn" class="btn-secondary mt-3" disabled>
-        <i data-lucide="rotate-ccw"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
         Next Question
       </button>
     </div>
   </section>
 
-  <!-- ============================================================
-       YES OR NO
-       ============================================================ -->
+  <!-- ============================================================ YES / NO ============================================================ -->
   <section class="screen" data-screen="yesno">
     <div class="yn-wrap safe-top">
       <header class="flex items-center gap-3 pb-3 px-4">
-        <button class="btn-back" data-nav="home" aria-label="Back">
-          <i data-lucide="arrow-left"></i>
-        </button>
-        <h2 class="text-lg font-extrabold tracking-tight text-slate-800">Yes or No</h2>
+        <button class="btn-back" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button>
+        <h2 style="font-size:1.125rem;font-weight:800;letter-spacing:-0.02em;color:#1e293b;margin:0">Yes or No</h2>
       </header>
-
       <div class="yn-display">
-        <div id="yn-display-inner" class="text-center">
-          <p class="text-[15px] font-bold text-slate-400">Think of a question, then tap below.</p>
-        </div>
+        <div id="yn-display-inner" class="text-center"><p style="font-size:15px;font-weight:700;color:#94a3b8">Think of a question, then tap below.</p></div>
       </div>
-
       <div class="px-5 safe-bottom">
         <button id="yn-ask-btn" class="btn-cta">Ask the Question</button>
         <button id="yn-play-btn" class="btn-cta" style="display:none">
-          <i data-lucide="refresh-cw"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
           Play Again
         </button>
-        <div id="yn-tally" class="yn-tally">
-          <span>Yes · 0</span>
-          <span class="h-1 w-1 rounded-full bg-slate-300"></span>
-          <span>No · 0</span>
-        </div>
+        <div id="yn-tally" class="yn-tally"><span>Yes · 0</span><span class="h-1 w-1 rounded-full bg-slate-300"></span><span>No · 0</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================
-       SETTINGS
-       ============================================================ -->
+  <!-- ============================================================ SETTINGS ============================================================ -->
   <section class="screen" data-screen="settings">
     <div class="px-5 pb-10 safe-top max-w-md mx-auto">
       <header class="flex items-center gap-3 pb-3">
-        <button class="btn-back" data-nav="home" aria-label="Back">
-          <i data-lucide="arrow-left"></i>
-        </button>
-        <h2 class="text-lg font-extrabold tracking-tight text-slate-800">Settings</h2>
+        <button class="btn-back" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button>
+        <h2 style="font-size:1.125rem;font-weight:800;letter-spacing:-0.02em;color:#1e293b;margin:0">Settings</h2>
       </header>
-
       <div class="flex flex-col gap-3 mt-2">
         <div class="settings-row">
-          <span class="settings-icon"><i data-lucide="volume-2"></i></span>
-          <div class="flex-1 min-w-0">
-            <div class="settings-title">Sound effects</div>
-            <div class="settings-desc">Ticks, taps and the winning fanfare.</div>
-          </div>
+          <span class="settings-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></span>
+          <div class="flex-1 min-w-0"><div class="settings-title">Sound effects</div><div class="settings-desc">Ticks, taps and the winning fanfare.</div></div>
           <button class="switch" role="switch" aria-checked="true" data-setting="sound" aria-label="Sound effects"></button>
         </div>
-
         <div class="settings-row">
-          <span class="settings-icon"><i data-lucide="vibrate"></i></span>
-          <div class="flex-1 min-w-0">
-            <div class="settings-title">Vibration</div>
-            <div class="settings-desc">Haptic feedback on supported devices.</div>
-          </div>
+          <span class="settings-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m2 8 2 2-2 2 2 2-2 2"/><path d="m22 8-2 2 2 2-2 2 2 2"/><rect width="8" height="14" x="8" y="5" rx="1"/></svg></span>
+          <div class="flex-1 min-w-0"><div class="settings-title">Vibration</div><div class="settings-desc">Haptic feedback on supported devices.</div></div>
           <button class="switch" role="switch" aria-checked="true" data-setting="haptics" aria-label="Vibration"></button>
         </div>
-
         <div class="settings-row">
-          <span class="settings-icon"><i data-lucide="zap"></i></span>
-          <div class="flex-1 min-w-0">
-            <div class="settings-title">Reduce motion</div>
-            <div class="settings-desc">Shorter animations and no confetti bursts.</div>
-          </div>
+          <span class="settings-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+          <div class="flex-1 min-w-0"><div class="settings-title">Reduce motion</div><div class="settings-desc">Shorter animations and no confetti bursts.</div></div>
           <button class="switch" role="switch" aria-checked="false" data-setting="reducedMotion" aria-label="Reduce motion"></button>
         </div>
       </div>
-
       <button id="reset-settings" class="btn-secondary mt-5">
-        <i data-lucide="rotate-ccw"></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
         Reset preferences
       </button>
-
-      <div class="mt-8 rounded-3xl bg-white/70 p-5">
-        <p class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-400">About PickOne</p>
-        <p class="mt-2 text-[13px] font-semibold leading-relaxed text-slate-500">
-          PickOne picks fairly using your device's secure random number generator. It works with one shared touchscreen — the app can track many fingers at once but it can't tell which person owns which finger.
-        </p>
-        <p class="mt-3 text-[13px] font-semibold leading-relaxed text-slate-500">
-          No accounts, no ads, no tracking. Your preferences are stored only on this device.
-        </p>
+      <div class="mt-8" style="border-radius:1.5rem;background:rgba(255,255,255,0.7);padding:1.25rem">
+        <p style="font-size:11px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#94a3b8;margin:0">About PickOne</p>
+        <p style="margin:8px 0 0;font-size:13px;font-weight:600;line-height:1.6;color:#64748b">PickOne picks fairly using your device's secure random number generator. It works with one shared touchscreen — the app can track many fingers at once but it can't tell which person owns which finger.</p>
+        <p style="margin:12px 0 0;font-size:13px;font-weight:600;line-height:1.6;color:#64748b">No accounts, no ads, no tracking. Your preferences are stored only on this device.</p>
       </div>
     </div>
   </section>
@@ -823,84 +563,25 @@
    DATA
    ============================================================== */
 const MARKER_COLORS = [
-  { name: 'coral',     hex: '#FF4D6D' },
-  { name: 'tangerine', hex: '#FF8A3D' },
-  { name: 'gold',      hex: '#FFC93C' },
-  { name: 'lime',      hex: '#8BE04E' },
-  { name: 'mint',      hex: '#2ED9A3' },
-  { name: 'sky',       hex: '#38BDF8' },
-  { name: 'indigo',    hex: '#6366F1' },
-  { name: 'violet',    hex: '#A855F7' },
-  { name: 'pink',      hex: '#F472B6' },
-  { name: 'teal',      hex: '#14B8A6' },
+  { name: 'coral', hex: '#FF4D6D' }, { name: 'tangerine', hex: '#FF8A3D' },
+  { name: 'gold', hex: '#FFC93C' }, { name: 'lime', hex: '#8BE04E' },
+  { name: 'mint', hex: '#2ED9A3' }, { name: 'sky', hex: '#38BDF8' },
+  { name: 'indigo', hex: '#6366F1' }, { name: 'violet', hex: '#A855F7' },
+  { name: 'pink', hex: '#F472B6' }, { name: 'teal', hex: '#14B8A6' },
 ];
 
 const PROMPTS = {
   family: {
-    truth: [
-      "What's the silliest thing you've ever done in front of your family?",
-      'What is a talent you wish you had?',
-      "What's the best gift you've ever received?",
-      'Which cartoon character would you want as a best friend?',
-      "What's the weirdest food combination you actually enjoy?",
-      'What is one thing that always makes you laugh?',
-      "What's the last thing that made you cry — happy or sad?",
-      'If you could have any superpower, what would it be and why?',
-    ],
-    dare: [
-      'Sing the chorus of your favourite song out loud.',
-      'Do your best impression of an animal for 10 seconds.',
-      "Speak in a robot voice until it's your turn again.",
-      'Balance a shoe on your head for 15 seconds.',
-      'Dance with no music for 20 seconds.',
-      'Give the person on your left a compliment.',
-      'Say the alphabet backwards from Z to P.',
-      'Make up a short rap about the person to your right.',
-    ],
+    truth: ["What's the silliest thing you've ever done in front of your family?", 'What is a talent you wish you had?', "What's the best gift you've ever received?", 'Which cartoon character would you want as a best friend?', "What's the weirdest food combination you actually enjoy?", 'What is one thing that always makes you laugh?', "What's the last thing that made you cry — happy or sad?", 'If you could have any superpower, what would it be and why?'],
+    dare: ['Sing the chorus of your favourite song out loud.', 'Do your best impression of an animal for 10 seconds.', "Speak in a robot voice until it's your turn again.", 'Balance a shoe on your head for 15 seconds.', 'Dance with no music for 20 seconds.', 'Give the person on your left a compliment.', 'Say the alphabet backwards from Z to P.', 'Make up a short rap about the person to your right.'],
   },
   party: {
-    truth: [
-      "What's the most embarrassing song on your playlist?",
-      "What's the worst fashion choice you've ever made?",
-      'Who in this room would you trust to plan your birthday?',
-      "What's the biggest excuse you've invented to get out of trouble?",
-      "Have you ever pretended to laugh at a joke you didn't get?",
-      "What's your most useless talent?",
-      "What's the last photo in your camera roll?",
-      "What's the pettiest reason you've ever been annoyed at someone?",
-    ],
-    dare: [
-      'Text the third person in your contacts a random emoji.',
-      'Let the group choose your profile picture for the next hour.',
-      'Do your best runway walk across the room.',
-      'Talk in a British accent until your next turn.',
-      'Let someone else post a story on your behalf — nothing mean!',
-      'Do 10 jumping jacks while singing.',
-      'Name the person you would least want to arm-wrestle.',
-      "Let the group pick a word you can't say for the next 3 rounds.",
-    ],
+    truth: ["What's the most embarrassing song on your playlist?", "What's the worst fashion choice you've ever made?", 'Who in this room would you trust to plan your birthday?', "What's the biggest excuse you've invented to get out of trouble?", "Have you ever pretended to laugh at a joke you didn't get?", "What's your most useless talent?", "What's the last photo in your camera roll?", "What's the pettiest reason you've ever been annoyed at someone?"],
+    dare: ['Text the third person in your contacts a random emoji.', 'Let the group choose your profile picture for the next hour.', 'Do your best runway walk across the room.', 'Talk in a British accent until your next turn.', 'Let someone else post a story on your behalf — nothing mean!', 'Do 10 jumping jacks while singing.', 'Name the person you would least want to arm-wrestle.', "Let the group pick a word you can't say for the next 3 rounds."],
   },
   spicy: {
-    truth: [
-      'Who in this room gives the best hugs?',
-      "What's the most attractive quality a person can have?",
-      'Have you ever had a crush on someone in this room?',
-      "What's your go-to flirty line?",
-      "What's the boldest thing you've ever done to get someone's attention?",
-      "What's your idea of a perfect date?",
-      "What's the last compliment that made you blush?",
-      'Have you ever sent a message you instantly regretted?',
-    ],
-    dare: [
-      'Give someone in the room a genuine compliment and hold eye contact.',
-      'Do your most convincing flirty wink at the person across from you.',
-      "Say 'you look nice today' to the person on your right.",
-      'Slow dance with an imaginary partner for 15 seconds.',
-      'Whisper a secret to the person next to you.',
-      'Describe your ideal partner in three words.',
-      'Hold eye contact with someone for 10 seconds without laughing.',
-      'Give the group a dramatic reading of the last text you received.',
-    ],
+    truth: ['Who in this room gives the best hugs?', "What's the most attractive quality a person can have?", 'Have you ever had a crush on someone in this room?', "What's your go-to flirty line?", "What's the boldest thing you've ever done to get someone's attention?", "What's your idea of a perfect date?", "What's the last compliment that made you blush?", 'Have you ever sent a message you instantly regretted?'],
+    dare: ['Give someone in the room a genuine compliment and hold eye contact.', 'Do your most convincing flirty wink at the person across from you.', "Say 'you look nice today' to the person on your right.", 'Slow dance with an imaginary partner for 15 seconds.', 'Whisper a secret to the person next to you.', 'Describe your ideal partner in three words.', 'Hold eye contact with someone for 10 seconds without laughing.', 'Give the group a dramatic reading of the last text you received.'],
   },
 };
 
@@ -908,20 +589,10 @@ const PROMPTS = {
    STATE
    ============================================================== */
 const SETTINGS_KEY = 'pickone.settings.v1';
-
 const state = {
   screen: 'home',
   settings: loadSettings(),
-  chooser: {
-    phase: 'idle',
-    pointers: new Map(),
-    markerEls: new Map(),
-    snapshot: [],
-    snapshotEls: [],
-    highlightIndex: -1,
-    winner: null,
-    animRafId: null,
-  },
+  chooser: { phase: 'idle', pointers: new Map(), markerEls: new Map(), snapshot: [], snapshotEls: [], highlightIndex: -1, winner: null, animRafId: null },
   truth: { category: 'party', mode: null, prompt: null, lastPrompt: null },
   yesno: { stage: 'idle', answer: null, tally: { yes: 0, no: 0 }, timer: null },
 };
@@ -934,24 +605,16 @@ function defaultSettings() {
   try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch {}
   return { sound: true, haptics: true, reducedMotion: reduced };
 }
-
 function loadSettings() {
   const defaults = defaultSettings();
   try {
     const raw = localStorage.getItem(SETTINGS_KEY);
     if (!raw) return defaults;
-    const parsed = JSON.parse(raw);
-    return {
-      sound: typeof parsed.sound === 'boolean' ? parsed.sound : defaults.sound,
-      haptics: typeof parsed.haptics === 'boolean' ? parsed.haptics : defaults.haptics,
-      reducedMotion: typeof parsed.reducedMotion === 'boolean' ? parsed.reducedMotion : defaults.reducedMotion,
-    };
+    const p = JSON.parse(raw);
+    return { sound: typeof p.sound === 'boolean' ? p.sound : defaults.sound, haptics: typeof p.haptics === 'boolean' ? p.haptics : defaults.haptics, reducedMotion: typeof p.reducedMotion === 'boolean' ? p.reducedMotion : defaults.reducedMotion };
   } catch { return defaults; }
 }
-
-function saveSettings() {
-  try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings)); } catch {}
-}
+function saveSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings)); } catch {} }
 
 /* ==============================================================
    UTILITIES
@@ -960,83 +623,52 @@ function secureRandomInt(maxExclusive) {
   if (!Number.isFinite(maxExclusive) || maxExclusive <= 0) return 0;
   const max = Math.floor(maxExclusive);
   if (max === 1) return 0;
-  const cryptoObj = typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
-  if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
+  const c = typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
+  if (c && typeof c.getRandomValues === 'function') {
     const range = 0x100000000;
     const limit = Math.floor(range / max) * max;
     const buf = new Uint32Array(1);
-    for (let i = 0; i < 32; i++) {
-      cryptoObj.getRandomValues(buf);
-      if (buf[0] < limit) return buf[0] % max;
-    }
+    for (let i = 0; i < 32; i++) { c.getRandomValues(buf); if (buf[0] < limit) return buf[0] % max; }
   }
   return Math.floor(Math.random() * max);
 }
+function vibrate(pattern) { if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') { try { navigator.vibrate(pattern); } catch {} } }
 
-function vibrate(pattern) {
-  if (typeof navigator === 'undefined' || typeof navigator.vibrate !== 'function') return;
-  try { navigator.vibrate(pattern); } catch {}
-}
-
-/* ---------------- Sound (Web Audio) ---------------- */
-let audioCtx = null;
-let masterGain = null;
+/* ---------------- Sound ---------------- */
+let audioCtx = null, masterGain = null;
 function getCtx() {
   if (typeof window === 'undefined') return null;
   const Ctor = window.AudioContext || window.webkitAudioContext;
   if (!Ctor) return null;
-  if (!audioCtx) {
-    try {
-      audioCtx = new Ctor();
-      masterGain = audioCtx.createGain();
-      masterGain.gain.value = 0.16;
-      masterGain.connect(audioCtx.destination);
-    } catch { return null; }
-  }
+  if (!audioCtx) { try { audioCtx = new Ctor(); masterGain = audioCtx.createGain(); masterGain.gain.value = 0.16; masterGain.connect(audioCtx.destination); } catch { return null; } }
   if (audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
   return audioCtx;
 }
 function tone(freq, delay, dur, type = 'sine', peak = 0.6) {
-  const ctx = getCtx();
-  if (!ctx || !masterGain) return;
+  const ctx = getCtx(); if (!ctx || !masterGain) return;
   const start = ctx.currentTime + delay;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, start);
+  const osc = ctx.createOscillator(), gain = ctx.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq, start);
   gain.gain.setValueAtTime(0.0001, start);
   gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, peak), start + 0.012);
   gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-  osc.connect(gain);
-  gain.connect(masterGain);
-  osc.start(start);
-  osc.stop(start + dur + 0.04);
+  osc.connect(gain); gain.connect(masterGain); osc.start(start); osc.stop(start + dur + 0.04);
 }
 const sfx = {
   unlock() { getCtx(); },
-  tap()    { if (state.settings.sound) tone(560, 0, 0.06, 'sine', 0.25); },
-  tick()   { if (state.settings.sound) tone(760, 0, 0.045, 'triangle', 0.22); },
-  reveal() {
-    if (!state.settings.sound) return;
-    tone(392, 0, 0.12, 'sine', 0.35);
-    tone(587.33, 0.09, 0.18, 'sine', 0.35);
-  },
-  win() {
-    if (!state.settings.sound) return;
-    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, i * 0.085, 0.26, 'sine', 0.5));
-    tone(1567.98, 0.36, 0.5, 'sine', 0.22);
-  },
+  tap() { if (state.settings.sound) tone(560, 0, 0.06, 'sine', 0.25); },
+  tick() { if (state.settings.sound) tone(760, 0, 0.045, 'triangle', 0.22); },
+  reveal() { if (!state.settings.sound) return; tone(392, 0, 0.12, 'sine', 0.35); tone(587.33, 0.09, 0.18, 'sine', 0.35); },
+  win() { if (!state.settings.sound) return; [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, i * 0.085, 0.26, 'sine', 0.5)); tone(1567.98, 0.36, 0.5, 'sine', 0.22); },
 };
 
 /* ==============================================================
-   SCREEN NAVIGATION
+   NAVIGATION
    ============================================================== */
 function showScreen(name) {
   if (state.screen === 'chooser' && name !== 'chooser') resetChooser();
   state.screen = name;
-  document.querySelectorAll('[data-screen]').forEach((el) => {
-    el.classList.toggle('active', el.dataset.screen === name);
-  });
+  document.querySelectorAll('[data-screen]').forEach((el) => el.classList.toggle('active', el.dataset.screen === name));
   if (name === 'chooser') resetChooser();
   if (name === 'truth') renderTruth();
   if (name === 'yesno') renderYesNo();
@@ -1044,51 +676,33 @@ function showScreen(name) {
 }
 
 /* ==============================================================
-   HOME
+   HOME SOUND BUTTON
    ============================================================== */
+const ICON_VOL_ON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+const ICON_VOL_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>';
 function renderHomeSoundButton() {
   const btn = document.getElementById('home-sound-btn');
-  btn.innerHTML = state.settings.sound
-    ? '<i data-lucide="volume-2"></i>'
-    : '<i data-lucide="volume-x"></i>';
+  if (!btn) return;
+  btn.innerHTML = state.settings.sound ? ICON_VOL_ON : ICON_VOL_OFF;
   btn.setAttribute('aria-pressed', String(state.settings.sound));
-  if (window.lucide) lucide.createIcons();
 }
 
 /* ==============================================================
-   CHOOSER — MARKER DOM
+   CHOOSER — MARKERS
    ============================================================== */
 function createMarkerElement(p) {
   const el = document.createElement('div');
   el.className = 'marker';
-  el.style.left = p.x + 'px';
-  el.style.top = p.y + 'px';
+  el.style.left = p.x + 'px'; el.style.top = p.y + 'px';
   el.style.setProperty('--color', p.color);
-
-  const inner = document.createElement('div');
-  inner.className = 'marker-inner';
-
-  const glow = document.createElement('div');
-  glow.className = 'marker-glow';
-  glow.style.background = p.color;
-
-  const ring = document.createElement('div');
-  ring.className = 'marker-ring';
-  ring.style.borderColor = p.color;
-
-  const disc = document.createElement('div');
-  disc.className = 'marker-disc';
-
-  const dot = document.createElement('div');
-  dot.className = 'marker-dot';
-
-  const label = document.createElement('div');
-  label.className = 'marker-label';
-  label.style.background = p.color;
-  label.textContent = "You're the chosen one!";
-
-  inner.append(glow, ring, disc, dot, label);
-  el.appendChild(inner);
+  el.innerHTML = `
+    <div class="marker-inner">
+      <div class="marker-glow" style="background:${p.color}"></div>
+      <div class="marker-ring" style="border-color:${p.color}"></div>
+      <div class="marker-disc"></div>
+      <div class="marker-dot"></div>
+      <div class="marker-label" style="background:${p.color}">You're the chosen one!</div>
+    </div>`;
   return el;
 }
 
@@ -1098,50 +712,30 @@ function createMarkerElement(p) {
 function updateChooserUI() {
   const c = state.chooser;
   const count = c.pointers.size;
-
-  document.getElementById('chooser-count').textContent =
-    `${count} ${count === 1 ? 'finger' : 'fingers'}`;
-
-  const instr     = document.getElementById('chooser-instruction');
+  document.getElementById('chooser-count').textContent = `${count} ${count === 1 ? 'finger' : 'fingers'}`;
+  const instr = document.getElementById('chooser-instruction');
   const chooseBtn = document.getElementById('chooser-choose-btn');
-  const choosing  = document.getElementById('chooser-choosing');
-  const result    = document.getElementById('chooser-result');
-  const empty     = document.getElementById('chooser-empty');
+  const choosing = document.getElementById('chooser-choosing');
+  const result = document.getElementById('chooser-result');
+  const empty = document.getElementById('chooser-empty');
 
   if (c.phase === 'idle') {
-    instr.textContent = count === 0
-      ? 'Everyone, place one finger on the screen'
-      : count === 1
-        ? 'One finger down — add more for a real pick'
-        : 'Tap "Choose for Me" when everyone is ready';
-    chooseBtn.style.display = '';
-    chooseBtn.disabled = count === 0;
-    choosing.style.display = 'none';
-    result.style.display = 'none';
+    instr.textContent = count === 0 ? 'Everyone, place one finger on the screen' : count === 1 ? 'One finger down — add more for a real pick' : 'Tap "Choose for Me" when everyone is ready';
+    chooseBtn.style.display = ''; chooseBtn.disabled = count === 0;
+    choosing.style.display = 'none'; result.style.display = 'none';
     empty.style.display = count === 0 ? '' : 'none';
   } else if (c.phase === 'choosing') {
     instr.textContent = 'Choosing…';
-    chooseBtn.style.display = 'none';
-    choosing.style.display = '';
-    result.style.display = 'none';
-    empty.style.display = 'none';
+    chooseBtn.style.display = 'none'; choosing.style.display = '';
+    result.style.display = 'none'; empty.style.display = 'none';
   } else if (c.phase === 'result') {
     instr.textContent = 'Winner locked in';
-    chooseBtn.style.display = 'none';
-    choosing.style.display = 'none';
-    result.style.display = '';
-    empty.style.display = 'none';
+    chooseBtn.style.display = 'none'; choosing.style.display = 'none';
+    result.style.display = ''; empty.style.display = 'none';
   }
 }
-
-function showNotice(msg) {
-  const n = document.getElementById('chooser-notice');
-  n.textContent = msg;
-  n.style.display = '';
-}
-function hideNotice() {
-  document.getElementById('chooser-notice').style.display = 'none';
-}
+function showNotice(msg) { const n = document.getElementById('chooser-notice'); if (n) { n.textContent = msg; n.style.display = ''; } }
+function hideNotice() { const n = document.getElementById('chooser-notice'); if (n) n.style.display = 'none'; }
 
 /* ==============================================================
    CHOOSER — RESET
@@ -1149,17 +743,10 @@ function hideNotice() {
 function resetChooser() {
   const c = state.chooser;
   if (c.animRafId) { cancelAnimationFrame(c.animRafId); c.animRafId = null; }
-  c.markerEls.forEach((el) => el.remove());
-  c.markerEls.clear();
-  c.pointers.clear();
-  c.snapshot = [];
-  c.snapshotEls = [];
-  c.highlightIndex = -1;
-  c.winner = null;
+  c.markerEls.forEach((el) => el.remove()); c.markerEls.clear();
+  c.pointers.clear(); c.snapshot = []; c.snapshotEls = []; c.highlightIndex = -1; c.winner = null;
   c.phase = 'idle';
-  hideNotice();
-  hideConfetti();
-  updateChooserUI();
+  hideNotice(); hideConfetti(); updateChooserUI();
 }
 
 /* ==============================================================
@@ -1167,73 +754,42 @@ function resetChooser() {
    ============================================================== */
 function attachChooserHandlers() {
   const surface = document.getElementById('chooser-surface');
+  if (!surface || surface.dataset.bound === '1') return;
+  surface.dataset.bound = '1';
 
-  const onPointerDown = (e) => {
+  surface.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     const c = state.chooser;
     if (c.pointers.has(e.pointerId)) return;
-
     try { surface.setPointerCapture(e.pointerId); } catch {}
-
     const rect = surface.getBoundingClientRect();
     const used = new Set(Array.from(c.pointers.values()).map((p) => p.colorName));
     const available = MARKER_COLORS.filter((col) => !used.has(col.name));
     const palette = available.length > 0 ? available : MARKER_COLORS;
     const color = palette[secureRandomInt(palette.length)];
-
-    const p = {
-      pointerId: e.pointerId,
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-      color: color.hex,
-      colorName: color.name,
-    };
+    const p = { pointerId: e.pointerId, x: e.clientX - rect.left, y: e.clientY - rect.top, color: color.hex, colorName: color.name };
     c.pointers.set(e.pointerId, p);
+    if (c.phase === 'idle') { const el = createMarkerElement(p); surface.appendChild(el); c.markerEls.set(e.pointerId, el); }
+    hideNotice(); updateChooserUI(); sfx.tap();
+  });
 
-    if (c.phase === 'idle') {
-      const el = createMarkerElement(p);
-      surface.appendChild(el);
-      c.markerEls.set(e.pointerId, el);
-    }
-
-    hideNotice();
-    updateChooserUI();
-    sfx.tap();
-  };
-
-  const onPointerMove = (e) => {
+  surface.addEventListener('pointermove', (e) => {
     const c = state.chooser;
     const p = c.pointers.get(e.pointerId);
     if (!p) return;
     const rect = surface.getBoundingClientRect();
-    p.x = e.clientX - rect.left;
-    p.y = e.clientY - rect.top;
+    p.x = e.clientX - rect.left; p.y = e.clientY - rect.top;
+    if (c.phase === 'idle') { const el = c.markerEls.get(e.pointerId); if (el) { el.style.left = p.x + 'px'; el.style.top = p.y + 'px'; } }
+  });
 
-    if (c.phase === 'idle') {
-      const el = c.markerEls.get(e.pointerId);
-      if (el) {
-        el.style.left = p.x + 'px';
-        el.style.top  = p.y + 'px';
-      }
-    }
-  };
-
-  const onPointerEnd = (e) => {
+  const onEnd = (e) => {
     const c = state.chooser;
     if (!c.pointers.has(e.pointerId)) return;
     c.pointers.delete(e.pointerId);
-
-    if (c.phase === 'idle') {
-      const el = c.markerEls.get(e.pointerId);
-      if (el) { el.remove(); c.markerEls.delete(e.pointerId); }
-      updateChooserUI();
-    }
+    if (c.phase === 'idle') { const el = c.markerEls.get(e.pointerId); if (el) { el.remove(); c.markerEls.delete(e.pointerId); } updateChooserUI(); }
   };
-
-  surface.addEventListener('pointerdown', onPointerDown);
-  surface.addEventListener('pointermove', onPointerMove);
-  surface.addEventListener('pointerup', onPointerEnd);
-  surface.addEventListener('pointercancel', onPointerEnd);
+  surface.addEventListener('pointerup', onEnd);
+  surface.addEventListener('pointercancel', onEnd);
   surface.addEventListener('contextmenu', (e) => e.preventDefault());
   surface.addEventListener('dragstart', (e) => e.preventDefault());
 }
@@ -1244,26 +800,15 @@ function attachChooserHandlers() {
 function startChoosing() {
   const c = state.chooser;
   if (c.phase !== 'idle') return;
-
   const participants = Array.from(c.pointers.values());
-  if (participants.length === 0) {
-    showNotice('Place at least one finger on the screen to pick.');
-    return;
-  }
-
+  if (participants.length === 0) { showNotice('Place at least one finger on the screen to pick.'); return; }
   hideNotice();
   c.snapshot = participants;
-  c.snapshotEls = participants
-    .map((p) => c.markerEls.get(p.pointerId))
-    .filter(Boolean);
-  c.highlightIndex = -1;
-  c.winner = null;
-  c.phase = 'choosing';
-  updateChooserUI();
+  c.snapshotEls = participants.map((p) => c.markerEls.get(p.pointerId)).filter(Boolean);
+  c.highlightIndex = -1; c.winner = null; c.phase = 'choosing'; updateChooserUI();
 
   const count = participants.length;
   const winnerIndex = secureRandomInt(count);
-
   const baseSteps = Math.max(count * 4, 24);
   const totalSteps = baseSteps - (baseSteps % count) + winnerIndex;
   const duration = state.settings.reducedMotion ? 380 : 2000;
@@ -1275,72 +820,37 @@ function startChoosing() {
     const eased = 1 - Math.pow(1 - progress, 3);
     const stepped = Math.min(totalSteps, Math.floor(eased * totalSteps));
     const current = stepped % count;
-
     if (current !== last) {
       last = current;
       c.snapshotEls.forEach((el, i) => el.classList.toggle('highlight', i === current));
       sfx.tick();
       if (state.settings.haptics && progress > 0.75) vibrate(6);
     }
-
-    if (progress < 1) {
-      c.animRafId = requestAnimationFrame(tick);
-    } else {
-      c.animRafId = null;
-      finishRound(winnerIndex);
-    }
+    if (progress < 1) { c.animRafId = requestAnimationFrame(tick); }
+    else { c.animRafId = null; finishRound(winnerIndex); }
   };
-
   c.animRafId = requestAnimationFrame(tick);
 }
 
 function finishRound(winnerIndex) {
   const c = state.chooser;
   const winner = c.snapshot[winnerIndex];
-
-  c.snapshotEls.forEach((el, i) => {
-    el.classList.remove('highlight');
-    if (i === winnerIndex) el.classList.add('winner');
-    else el.classList.add('dimmed');
-  });
-
-  c.winner = winner;
-  c.highlightIndex = winnerIndex;
-  c.phase = 'result';
-  updateChooserUI();
-
+  c.snapshotEls.forEach((el, i) => { el.classList.remove('highlight'); if (i === winnerIndex) el.classList.add('winner'); else el.classList.add('dimmed'); });
+  c.winner = winner; c.highlightIndex = winnerIndex; c.phase = 'result'; updateChooserUI();
   const dot = document.getElementById('winner-dot');
-  dot.style.background = winner.color;
-  dot.style.color = winner.color;
-
-  sfx.win();
-  if (state.settings.haptics) vibrate([0, 40, 60, 120]);
+  if (dot) { dot.style.background = winner.color; dot.style.color = winner.color; }
+  sfx.win(); if (state.settings.haptics) vibrate([0, 40, 60, 120]);
   if (!state.settings.reducedMotion) fireConfetti();
 }
 
 function playAgain() {
   const c = state.chooser;
   if (c.animRafId) { cancelAnimationFrame(c.animRafId); c.animRafId = null; }
-
-  c.markerEls.forEach((el) => el.remove());
-  c.markerEls.clear();
-
-  c.phase = 'idle';
-  c.snapshot = [];
-  c.snapshotEls = [];
-  c.highlightIndex = -1;
-  c.winner = null;
-
+  c.markerEls.forEach((el) => el.remove()); c.markerEls.clear();
+  c.phase = 'idle'; c.snapshot = []; c.snapshotEls = []; c.highlightIndex = -1; c.winner = null;
   const surface = document.getElementById('chooser-surface');
-  for (const p of c.pointers.values()) {
-    const el = createMarkerElement(p);
-    surface.appendChild(el);
-    c.markerEls.set(p.pointerId, el);
-  }
-
-  hideNotice();
-  hideConfetti();
-  updateChooserUI();
+  if (surface) { for (const p of c.pointers.values()) { const el = createMarkerElement(p); surface.appendChild(el); c.markerEls.set(p.pointerId, el); } }
+  hideNotice(); hideConfetti(); updateChooserUI();
 }
 
 /* ==============================================================
@@ -1348,82 +858,40 @@ function playAgain() {
    ============================================================== */
 const CONFETTI_COLORS = ['#FF4D6D','#FF8A3D','#FFC93C','#2ED9A3','#38BDF8','#A855F7','#F472B6'];
 let confettiRaf = null;
-
 function fireConfetti() {
-  const canvas = document.getElementById('chooser-confetti');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
+  const canvas = document.getElementById('chooser-confetti'); if (!canvas) return;
+  const ctx = canvas.getContext('2d'); if (!ctx) return;
   if (confettiRaf) { cancelAnimationFrame(confettiRaf); confettiRaf = null; }
-
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const width = canvas.clientWidth || window.innerWidth;
   const height = canvas.clientHeight || window.innerHeight;
-  canvas.width = Math.floor(width * dpr);
-  canvas.height = Math.floor(height * dpr);
+  canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  const originX = width / 2;
-  const originY = height * 0.4;
+  const originX = width / 2, originY = height * 0.4;
   const particles = [];
   for (let i = 0; i < 150; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 3 + Math.random() * 9;
-    particles.push({
-      x: originX, y: originY,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 4,
-      size: 5 + Math.random() * 7,
-      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
-      rotation: Math.random() * Math.PI * 2,
-      rotationSpeed: (Math.random() - 0.5) * 0.32,
-      life: 0,
-      maxLife: 80 + Math.random() * 60,
-    });
+    const angle = Math.random() * Math.PI * 2, speed = 3 + Math.random() * 9;
+    particles.push({ x: originX, y: originY, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 4, size: 5 + Math.random() * 7, color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)], rotation: Math.random() * Math.PI * 2, rotationSpeed: (Math.random() - 0.5) * 0.32, life: 0, maxLife: 80 + Math.random() * 60 });
   }
-
   let frame = 0;
   const render = () => {
-    frame++;
-    ctx.clearRect(0, 0, width, height);
-    let alive = 0;
+    frame++; ctx.clearRect(0, 0, width, height); let alive = 0;
     for (const p of particles) {
-      p.life++;
-      if (p.life > p.maxLife) continue;
-      alive++;
-      p.vy += 0.24;
-      p.vx *= 0.995;
-      p.vy *= 0.995;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.rotation += p.rotationSpeed;
+      p.life++; if (p.life > p.maxLife) continue; alive++;
+      p.vy += 0.24; p.vx *= 0.995; p.vy *= 0.995; p.x += p.vx; p.y += p.vy; p.rotation += p.rotationSpeed;
       const fade = Math.max(0, 1 - p.life / p.maxLife);
-      ctx.save();
-      ctx.globalAlpha = fade;
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
-      ctx.restore();
+      ctx.save(); ctx.globalAlpha = fade; ctx.translate(p.x, p.y); ctx.rotate(p.rotation);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2); ctx.restore();
     }
-    if (alive > 0 && frame < 320) {
-      confettiRaf = requestAnimationFrame(render);
-    } else {
-      ctx.clearRect(0, 0, width, height);
-      confettiRaf = null;
-    }
+    if (alive > 0 && frame < 320) { confettiRaf = requestAnimationFrame(render); }
+    else { ctx.clearRect(0, 0, width, height); confettiRaf = null; }
   };
   confettiRaf = requestAnimationFrame(render);
 }
-
 function hideConfetti() {
   if (confettiRaf) { cancelAnimationFrame(confettiRaf); confettiRaf = null; }
   const canvas = document.getElementById('chooser-confetti');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
+  if (canvas) { const ctx = canvas.getContext('2d'); if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); }
 }
 
 /* ==============================================================
@@ -1431,56 +899,29 @@ function hideConfetti() {
    ============================================================== */
 function renderTruth() {
   const t = state.truth;
-
-  document.querySelectorAll('.category-tab').forEach((tab) => {
-    tab.classList.toggle('active', tab.dataset.category === t.category);
-  });
-
-  const empty     = document.getElementById('prompt-empty');
-  const card      = document.getElementById('prompt-card');
-  const label     = document.getElementById('prompt-label');
-  const labelWrap = document.getElementById('prompt-label-wrap');
-  const icon      = document.getElementById('prompt-icon');
-  const text      = document.getElementById('prompt-text');
-  const nextBtn   = document.getElementById('next-question-btn');
-  const btnTruth  = document.getElementById('btn-truth');
-  const btnDare   = document.getElementById('btn-dare');
-
+  document.querySelectorAll('.category-tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.category === t.category));
+  const empty = document.getElementById('prompt-empty'), card = document.getElementById('prompt-card');
+  const label = document.getElementById('prompt-label'), text = document.getElementById('prompt-text');
+  const nextBtn = document.getElementById('next-question-btn');
+  const btnTruth = document.getElementById('btn-truth'), btnDare = document.getElementById('btn-dare');
   if (t.prompt) {
     const isTruth = t.mode === 'truth';
-    empty.style.display = 'none';
-    card.style.display = '';
+    empty.style.display = 'none'; card.style.display = '';
     card.className = 'prompt-card ' + (isTruth ? 'prompt-card-truth' : 'prompt-card-dare');
     label.textContent = isTruth ? 'TRUTH' : 'DARE';
-    labelWrap.innerHTML =
-      `<i data-lucide="${isTruth ? 'sparkles' : 'flame'}"></i><span id="prompt-label">${label.textContent}</span>`;
-    text.textContent = t.prompt;
-    if (window.lucide) lucide.createIcons();
-    nextBtn.disabled = false;
-
-    btnTruth.classList.toggle('active', isTruth);
-    btnDare.classList.toggle('active', !isTruth);
+    text.textContent = t.prompt; nextBtn.disabled = false;
+    btnTruth.classList.toggle('active', isTruth); btnDare.classList.toggle('active', !isTruth);
   } else {
-    empty.style.display = '';
-    card.style.display = 'none';
-    nextBtn.disabled = true;
-    btnTruth.classList.remove('active');
-    btnDare.classList.remove('active');
+    empty.style.display = ''; card.style.display = 'none'; nextBtn.disabled = true;
+    btnTruth.classList.remove('active'); btnDare.classList.remove('active');
   }
 }
-
 function drawPrompt(mode) {
   const t = state.truth;
   const list = PROMPTS[t.category][mode];
   let candidate = list[secureRandomInt(list.length)];
-  for (let i = 0; i < 8 && candidate === t.lastPrompt && list.length > 1; i++) {
-    candidate = list[secureRandomInt(list.length)];
-  }
-  t.mode = mode;
-  t.prompt = candidate;
-  t.lastPrompt = candidate;
-  renderTruth();
-  sfx.reveal();
+  for (let i = 0; i < 8 && candidate === t.lastPrompt && list.length > 1; i++) candidate = list[secureRandomInt(list.length)];
+  t.mode = mode; t.prompt = candidate; t.lastPrompt = candidate; renderTruth(); sfx.reveal();
   if (state.settings.haptics) vibrate(14);
 }
 
@@ -1489,80 +930,37 @@ function drawPrompt(mode) {
    ============================================================== */
 function renderYesNo() {
   const y = state.yesno;
-  const display   = document.getElementById('yn-display-inner');
-  const askBtn    = document.getElementById('yn-ask-btn');
-  const playBtn   = document.getElementById('yn-play-btn');
-  const tallyEl   = document.getElementById('yn-tally');
-
+  const display = document.getElementById('yn-display-inner'), askBtn = document.getElementById('yn-ask-btn'), playBtn = document.getElementById('yn-play-btn'), tallyEl = document.getElementById('yn-tally');
   if (y.stage === 'idle') {
-    display.innerHTML = `<p class="text-[15px] font-bold text-slate-400">Think of a question, then tap below.</p>`;
-    askBtn.style.display = '';
-    askBtn.disabled = false;
-    askBtn.innerHTML = 'Ask the Question';
-    playBtn.style.display = 'none';
+    display.innerHTML = '<p style="font-size:15px;font-weight:700;color:#94a3b8">Think of a question, then tap below.</p>';
+    askBtn.style.display = ''; askBtn.disabled = false; askBtn.innerHTML = 'Ask the Question'; playBtn.style.display = 'none';
   } else if (y.stage === 'thinking') {
-    display.innerHTML = `<div class="yn-thinking">?</div>`;
-    askBtn.style.display = '';
-    askBtn.disabled = true;
-    askBtn.innerHTML = 'Deciding…';
-    playBtn.style.display = 'none';
+    display.innerHTML = '<div class="yn-thinking">?</div>';
+    askBtn.style.display = ''; askBtn.disabled = true; askBtn.innerHTML = 'Deciding…'; playBtn.style.display = 'none';
   } else {
     const isYes = y.stage === 'yes';
-    display.innerHTML = `
-      <div class="yn-answer ${isYes ? 'yn-yes' : 'yn-no'}">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-          ${isYes
-            ? '<path d="M20 6 9 17l-5-5"/>'
-            : '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'}
-        </svg>
-        <span>${isYes ? 'Yes!' : 'No.'}</span>
-      </div>`;
-    askBtn.style.display = 'none';
-    playBtn.style.display = '';
+    display.innerHTML = `<div class="yn-answer ${isYes ? 'yn-yes' : 'yn-no'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">${isYes ? '<path d="M20 6 9 17l-5-5"/>' : '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'}</svg><span>${isYes ? 'Yes!' : 'No.'}</span></div>`;
+    askBtn.style.display = 'none'; playBtn.style.display = '';
   }
-
-  tallyEl.innerHTML =
-    `<span>Yes · ${y.tally.yes}</span>
-     <span class="h-1 w-1 rounded-full bg-slate-300"></span>
-     <span>No · ${y.tally.no}</span>`;
+  tallyEl.innerHTML = `<span>Yes · ${y.tally.yes}</span><span class="h-1 w-1 rounded-full bg-slate-300"></span><span>No · ${y.tally.no}</span>`;
 }
-
 function askQuestion() {
-  const y = state.yesno;
-  if (y.stage === 'thinking') return;
-  y.stage = 'thinking';
-  renderYesNo();
-  sfx.tick();
-  if (state.settings.haptics) vibrate(15);
-
+  const y = state.yesno; if (y.stage === 'thinking') return;
+  y.stage = 'thinking'; renderYesNo(); sfx.tick(); if (state.settings.haptics) vibrate(15);
   y.timer = setTimeout(() => {
     const answer = secureRandomInt(2) === 0 ? 'yes' : 'no';
-    y.answer = answer;
-    y.stage = answer;
-    y.tally[answer]++;
-    renderYesNo();
-    sfx.reveal();
+    y.answer = answer; y.stage = answer; y.tally[answer]++; renderYesNo(); sfx.reveal();
     if (state.settings.haptics) vibrate(answer === 'yes' ? [0, 30, 40, 30] : 40);
     y.timer = null;
   }, state.settings.reducedMotion ? 260 : 1100);
 }
-
-function resetYesNo() {
-  const y = state.yesno;
-  if (y.timer) { clearTimeout(y.timer); y.timer = null; }
-  y.stage = 'idle';
-  y.answer = null;
-  renderYesNo();
-}
+function resetYesNo() { const y = state.yesno; if (y.timer) { clearTimeout(y.timer); y.timer = null; } y.stage = 'idle'; y.answer = null; renderYesNo(); }
 
 /* ==============================================================
    SETTINGS
    ============================================================== */
 function renderSettings() {
-  document.querySelectorAll('.switch[data-setting]').forEach((el) => {
-    const key = el.dataset.setting;
-    el.setAttribute('aria-checked', String(!!state.settings[key]));
-  });
+  document.querySelectorAll('.switch[data-setting]').forEach((el) => el.setAttribute('aria-checked', String(!!state.settings[el.dataset.setting])));
   renderHomeSoundButton();
 }
 
@@ -1570,108 +968,44 @@ function renderSettings() {
    BOOT
    ============================================================== */
 function boot() {
-  if (window.lucide) lucide.createIcons();
-
-  // Settings / sound button initial state
   renderSettings();
 
-  // Nav buttons
   document.querySelectorAll('[data-nav]').forEach((el) => {
-    el.addEventListener('click', () => {
-      sfx.unlock();
-      sfx.tap();
-      showScreen(el.dataset.nav);
-    });
+    el.addEventListener('click', () => { sfx.unlock(); sfx.tap(); showScreen(el.dataset.nav); });
   });
 
-  // Home sound toggle
   document.getElementById('home-sound-btn').addEventListener('click', () => {
-    state.settings.sound = !state.settings.sound;
-    saveSettings();
-    renderHomeSoundButton();
-    sfx.unlock();
-    sfx.tap();
+    state.settings.sound = !state.settings.sound; saveSettings(); renderHomeSoundButton(); sfx.unlock(); sfx.tap();
   });
 
-  // Chooser
   attachChooserHandlers();
-  document.getElementById('chooser-back').addEventListener('click', () => {
-    showScreen('home');
-  });
-  document.getElementById('chooser-choose-btn').addEventListener('click', () => {
-    sfx.unlock();
-    startChoosing();
-  });
-  document.getElementById('play-again-btn').addEventListener('click', () => {
-    sfx.unlock();
-    playAgain();
-  });
-  document.getElementById('winner-home-btn').addEventListener('click', () => {
-    showScreen('home');
-  });
+  document.getElementById('chooser-back').addEventListener('click', () => showScreen('home'));
+  document.getElementById('chooser-choose-btn').addEventListener('click', () => { sfx.unlock(); startChoosing(); });
+  document.getElementById('play-again-btn').addEventListener('click', () => { sfx.unlock(); playAgain(); });
+  document.getElementById('winner-home-btn').addEventListener('click', () => showScreen('home'));
 
-  // Truth or Dare
-  document.getElementById('btn-truth').addEventListener('click', () => {
-    sfx.unlock();
-    drawPrompt('truth');
-  });
-  document.getElementById('btn-dare').addEventListener('click', () => {
-    sfx.unlock();
-    drawPrompt('dare');
-  });
-  document.getElementById('next-question-btn').addEventListener('click', () => {
-    if (state.truth.mode) drawPrompt(state.truth.mode);
-  });
+  document.getElementById('btn-truth').addEventListener('click', () => { sfx.unlock(); drawPrompt('truth'); });
+  document.getElementById('btn-dare').addEventListener('click', () => { sfx.unlock(); drawPrompt('dare'); });
+  document.getElementById('next-question-btn').addEventListener('click', () => { if (state.truth.mode) drawPrompt(state.truth.mode); });
   document.querySelectorAll('.category-tab').forEach((tab) => {
-    tab.addEventListener('click', () => {
-      state.truth.category = tab.dataset.category;
-      if (state.truth.mode) drawPrompt(state.truth.mode);
-      else renderTruth();
-    });
+    tab.addEventListener('click', () => { state.truth.category = tab.dataset.category; if (state.truth.mode) drawPrompt(state.truth.mode); else renderTruth(); });
   });
 
-  // Yes / No
-  document.getElementById('yn-ask-btn').addEventListener('click', () => {
-    sfx.unlock();
-    askQuestion();
-  });
-  document.getElementById('yn-play-btn').addEventListener('click', () => {
-    sfx.unlock();
-    resetYesNo();
-  });
+  document.getElementById('yn-ask-btn').addEventListener('click', () => { sfx.unlock(); askQuestion(); });
+  document.getElementById('yn-play-btn').addEventListener('click', () => { sfx.unlock(); resetYesNo(); });
 
-  // Settings switches
   document.querySelectorAll('.switch[data-setting]').forEach((sw) => {
-    sw.addEventListener('click', () => {
-      const key = sw.dataset.setting;
-      state.settings[key] = !state.settings[key];
-      saveSettings();
-      renderSettings();
-      sfx.unlock();
-      sfx.tap();
-    });
+    sw.addEventListener('click', () => { const key = sw.dataset.setting; state.settings[key] = !state.settings[key]; saveSettings(); renderSettings(); sfx.unlock(); sfx.tap(); });
   });
-  document.getElementById('reset-settings').addEventListener('click', () => {
-    state.settings = defaultSettings();
-    saveSettings();
-    renderSettings();
-    sfx.tap();
-  });
+  document.getElementById('reset-settings').addEventListener('click', () => { state.settings = defaultSettings(); saveSettings(); renderSettings(); sfx.tap(); });
 
-  // Unlock audio on first gesture
   document.addEventListener('pointerdown', () => sfx.unlock(), { once: true, passive: true });
 
-  // Initial UI
-  updateChooserUI();
-  renderTruth();
-  renderYesNo();
+  updateChooserUI(); renderTruth(); renderYesNo();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
-} else {
-  boot();
-}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+else boot();
 </script>
 </body>
 </html>
