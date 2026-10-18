@@ -5,240 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#FF4D6D" />
   <meta name="description" content="PickOne — the free random finger chooser. Place your fingers on the screen and let fate decide. Perfect for games, dares, and group decisions." />
+  <meta name="google-site-verification" content="v4YHPS7SurvEwMkasOu7v0o4GtKymSrDdj3Am5XUZ_c" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF4D6D'/%3E%3Cstop offset='100%25' stop-color='%23FFC93C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23fff'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23FF4D6D'/%3E%3C/svg%3E" />
-  <title>PickOne — Random Finger Chooser</title>
+  <title>Random Finger Chooser — Free Online Finger Picker | PickOne</title>
   <style>
-    /* ============================================================
-       RESET & BASE
-       ============================================================ */
     *, *::before, *::after { box-sizing: border-box; }
     html { height: 100%; }
-    body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, ui-rounded, 'SF Pro Rounded', sans-serif;
-      background: #FFF6F3;
-      color: #0f172a;
-      -webkit-font-smoothing: antialiased;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-      overscroll-behavior: none;
-    }
+    body { height: 100%; margin: 0; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, ui-rounded, 'SF Pro Rounded', sans-serif; background: #FFF6F3; color: #0f172a; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; overscroll-behavior: none; }
     button { font-family: inherit; -webkit-tap-highlight-color: transparent; cursor: pointer; }
-    #app {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-    }
+    #app { position: relative; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
 
-    /* ============================================================
-       SCREENS
-       ============================================================ */
     .screen { display: none; position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen.active { display: block; animation: screen-in 220ms ease-out; }
     .screen[data-screen="chooser"].active { overflow: hidden; }
     .screen.no-scroll { overflow: hidden; }
-    @keyframes screen-in {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes screen-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ============================================================
-       SAFE AREAS
-       ============================================================ */
     .safe-top    { padding-top: calc(env(safe-area-inset-top, 0px) + 1rem); }
     .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem); }
 
-    /* ============================================================
-       BUTTONS
-       ============================================================ */
-    .btn-cta {
-      display: flex; align-items: center; justify-content: center; gap: 0.625rem;
-      width: 100%; padding: 1.125rem 1.5rem;
-      border-radius: 1.625rem;
-      background: linear-gradient(90deg, #FF4D6D 0%, #FF6B4A 55%, #FF9F1C 100%);
-      color: #fff; font-weight: 900; font-size: 1.125rem; letter-spacing: -0.01em;
-      box-shadow: 0 22px 45px -18px rgba(255, 77, 109, 0.95);
-      border: none;
-      transition: transform 150ms ease-out, opacity 150ms ease-out;
-    }
+    /* BUTTONS */
+    .btn-cta { display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1.125rem 1.5rem; border-radius: 1.625rem; background: linear-gradient(90deg, #FF4D6D 0%, #FF6B4A 55%, #FF9F1C 100%); color: #fff; font-weight: 900; font-size: 1.125rem; letter-spacing: -0.01em; box-shadow: 0 22px 45px -18px rgba(255, 77, 109, 0.95); border: none; transition: transform 150ms ease-out, opacity 150ms ease-out; }
     .btn-cta:active { transform: scale(0.97); }
     .btn-cta:disabled { opacity: 0.4; box-shadow: none; cursor: not-allowed; }
     .btn-cta svg { width: 20px; height: 20px; stroke-width: 2.8; }
 
-    .btn-icon {
-      display: grid; place-items: center;
-      width: 44px; height: 44px;
-      border-radius: 9999px;
-      background: rgba(255,255,255,0.85);
-      color: #475569;
-      box-shadow: 0 8px 20px -12px rgba(15,23,42,0.5);
-      border: none;
-      transition: transform 120ms ease-out;
-    }
+    .btn-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 9999px; background: rgba(255,255,255,0.85); color: #475569; box-shadow: 0 8px 20px -12px rgba(15,23,42,0.5); border: none; transition: transform 120ms ease-out; }
     .btn-icon:active { transform: scale(0.94); }
     .btn-icon svg { width: 20px; height: 20px; stroke-width: 2.5; }
 
-    .btn-back {
-      display: grid; place-items: center;
-      width: 44px; height: 44px;
-      border-radius: 9999px;
-      background: #fff; color: #334155;
-      box-shadow: 0 6px 18px -8px rgba(255,77,109,0.55);
-      border: none;
-      transition: transform 120ms ease-out;
-    }
+    .btn-back { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 9999px; background: #fff; color: #334155; box-shadow: 0 6px 18px -8px rgba(255,77,109,0.55); border: none; transition: transform 120ms ease-out; }
     .btn-back:active { transform: scale(0.94); }
     .btn-back svg { width: 20px; height: 20px; stroke-width: 2.6; }
 
-    /* ============================================================
-       HOME
-       ============================================================ */
-    .home-bg {
-      min-height: 100%;
-      background: radial-gradient(120% 90% at 50% 0%, #FFF1EC 0%, #FFE7F0 45%, #FFF7E9 100%);
-    }
-    .home-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1.25rem 0.5rem;
-    }
+    /* HOME */
+    .home-bg { min-height: 100%; background: radial-gradient(120% 90% at 50% 0%, #FFF1EC 0%, #FFE7F0 45%, #FFF7E9 100%); }
+    .home-header { display: flex; align-items: center; justify-content: space-between; padding: 0 1.25rem 0.5rem; }
     .home-logo-row { display: flex; align-items: center; gap: 8px; }
     .home-brand { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; color: #0f172a; }
-    .home-title {
-      font-size: 2.1rem; font-weight: 900; line-height: 1.08;
-      letter-spacing: -0.02em; color: #0f172a; margin: 0;
-      position: relative;
-    }
-    .home-sub {
-      margin-top: 0.75rem; max-width: 20rem;
-      font-size: 15px; font-weight: 600; line-height: 1.6; color: #64748b;
-      position: relative;
-    }
-    .section-label {
-      display: flex; align-items: center; gap: 0.5rem;
-      margin-top: 2rem;
-      font-size: 11px; font-weight: 800; letter-spacing: 0.16em;
-      text-transform: uppercase; color: #94a3b8;
-    }
+    .home-title { font-size: 2.1rem; font-weight: 900; line-height: 1.08; letter-spacing: -0.02em; color: #0f172a; margin: 0; position: relative; }
+    .home-sub { margin-top: 0.75rem; max-width: 20rem; font-size: 15px; font-weight: 600; line-height: 1.6; color: #64748b; position: relative; }
+    .section-label { display: flex; align-items: center; gap: 0.5rem; margin-top: 2rem; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #94a3b8; }
     .section-label svg { width: 16px; height: 16px; stroke-width: 2.6; }
-    .mode-card {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem; width: 100%;
-      background: #fff; border-radius: 1.5rem;
-      box-shadow: 0 14px 34px -24px rgba(15,23,42,0.6);
-      border: none; text-align: left;
-      transition: transform 120ms ease-out;
-    }
+    .mode-card { display: flex; align-items: center; gap: 1rem; padding: 1rem; width: 100%; background: #fff; border-radius: 1.5rem; box-shadow: 0 14px 34px -24px rgba(15,23,42,0.6); border: none; text-align: left; transition: transform 120ms ease-out; }
     .mode-card:active { transform: scale(0.98); }
-    .mode-icon {
-      display: grid; place-items: center;
-      width: 48px; height: 48px; flex-shrink: 0;
-      border-radius: 1rem; color: #fff;
-      box-shadow: 0 8px 16px -8px rgba(15,23,42,0.3);
-    }
+    .mode-icon { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 1rem; color: #fff; box-shadow: 0 8px 16px -8px rgba(15,23,42,0.3); }
     .mode-icon svg { width: 24px; height: 24px; stroke-width: 2.5; }
     .mode-title { font-size: 15px; font-weight: 800; line-height: 1.2; color: #0f172a; display: block; }
     .mode-sub   { font-size: 13px; font-weight: 600; color: #94a3b8; margin-top: 2px; display: block; }
     .mode-chevron { width: 20px; height: 20px; color: #cbd5e1; stroke-width: 2.8; flex-shrink: 0; }
-    .home-footer-note {
-      margin-top: 2rem; text-align: center;
-      font-size: 11.5px; font-weight: 600; line-height: 1.6; color: #94a3b8;
-    }
+    .home-footer-note { margin-top: 2rem; text-align: center; font-size: 11.5px; font-weight: 600; line-height: 1.6; color: #94a3b8; }
 
-    /* ============================================================
-       CHOOSER
-       ============================================================ */
-    .chooser-surface {
-      position: absolute; inset: 0;
-      touch-action: none;
-      background: radial-gradient(120% 120% at 50% 0%, #FFF1EC 0%, #FFE7F0 45%, #FFF6E6 100%);
-    }
-    .chooser-top {
-      position: absolute; left: 0; right: 0; top: 0; z-index: 20;
-      padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
-      pointer-events: none;
-    }
-    .chooser-top-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1rem;
-    }
+    /* CHOOSER */
+    .chooser-surface { position: absolute; inset: 0; touch-action: none; background: radial-gradient(120% 120% at 50% 0%, #FFF1EC 0%, #FFE7F0 45%, #FFF6E6 100%); }
+    .chooser-top { position: absolute; left: 0; right: 0; top: 0; z-index: 20; padding-top: calc(env(safe-area-inset-top, 0px) + 1rem); pointer-events: none; }
+    .chooser-top-row { display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; }
     .chooser-top-row > button { pointer-events: auto; }
-    .count-pill {
-      display: flex; align-items: center; gap: 6px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 9999px;
-      font-size: 14px; font-weight: 800; color: #334155;
-      box-shadow: 0 8px 20px -10px rgba(15,23,42,0.4);
-    }
+    .count-pill { display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(255,255,255,0.9); border-radius: 9999px; font-size: 14px; font-weight: 800; color: #334155; box-shadow: 0 8px 20px -10px rgba(15,23,42,0.4); }
     .count-pill svg { width: 16px; height: 16px; color: #FF4D6D; stroke-width: 2.8; }
-    .chooser-instruction {
-      margin: 12px 2rem 0;
-      text-align: center;
-      font-size: 15px; font-weight: 700; color: #64748b;
-    }
-    .chooser-empty {
-      position: absolute; inset: 0; z-index: 10;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1rem; padding: 0 2.5rem;
-      pointer-events: none; text-align: center;
-    }
-    .chooser-empty-icon {
-      display: grid; place-items: center;
-      width: 96px; height: 96px; border-radius: 9999px;
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 20px 50px -20px rgba(255,77,109,0.7);
-      animation: float-slow 4s ease-in-out infinite;
-    }
+    .chooser-instruction { margin: 12px 2rem 0; text-align: center; font-size: 15px; font-weight: 700; color: #64748b; }
+    .chooser-empty { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 0 2.5rem; pointer-events: none; text-align: center; }
+    .chooser-empty-icon { display: grid; place-items: center; width: 96px; height: 96px; border-radius: 9999px; background: rgba(255,255,255,0.7); box-shadow: 0 20px 50px -20px rgba(255,77,109,0.7); animation: float-slow 4s ease-in-out infinite; }
     .chooser-empty-icon svg { width: 40px; height: 40px; color: #FF4D6D; stroke-width: 2.4; }
     .chooser-empty p { max-width: 16rem; font-size: 15px; font-weight: 700; color: #94a3b8; }
-    .chooser-bottom {
-      position: absolute; left: 0; right: 0; bottom: 0; z-index: 20;
-      padding-left: 1.25rem; padding-right: 1.25rem;
-      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
-      pointer-events: none;
-    }
-    .chooser-bottom > button,
-    .chooser-bottom .winner-card { pointer-events: auto; }
-    .chooser-bottom .btn-cta { max-width: 28rem; margin: 0 auto; }
-    .chooser-choosing {
-      max-width: 28rem; margin: 0 auto 8px;
-      padding: 12px 16px; border-radius: 1rem;
-      background: rgba(255,255,255,0.85);
-      text-align: center;
-      font-size: 14px; font-weight: 800; color: #64748b;
-      box-shadow: 0 4px 12px -4px rgba(15,23,42,0.15);
-      animation: pulse-soft 1s ease-in-out infinite;
-    }
+    .chooser-bottom { position: absolute; left: 0; right: 0; bottom: 0; z-index: 20; padding-left: 1.25rem; padding-right: 1.25rem; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem); pointer-events: none; display: flex; flex-direction: column; align-items: center; }
+    .chooser-bottom .winner-card { pointer-events: auto; width: 100%; }
+    .chooser-choosing { max-width: 28rem; margin: 0 auto 8px; padding: 12px 16px; border-radius: 1rem; background: rgba(255,255,255,0.85); text-align: center; font-size: 14px; font-weight: 800; color: #64748b; box-shadow: 0 4px 12px -4px rgba(15,23,42,0.15); animation: pulse-soft 1s ease-in-out infinite; }
     @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-    .chooser-notice {
-      max-width: 28rem; margin: 0 auto 12px;
-      padding: 10px 16px; border-radius: 1rem;
-      background: rgba(255,255,255,0.9);
-      text-align: center;
-      font-size: 13px; font-weight: 700; color: #64748b;
-      box-shadow: 0 4px 12px -4px rgba(15,23,42,0.15);
-    }
+    .chooser-notice { max-width: 28rem; margin: 0 auto 12px; padding: 10px 16px; border-radius: 1rem; background: rgba(255,255,255,0.9); text-align: center; font-size: 13px; font-weight: 700; color: #64748b; box-shadow: 0 4px 12px -4px rgba(15,23,42,0.15); }
     .chooser-confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
 
+    /* COUNTDOWN RING */
+    .chooser-countdown { display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; padding-bottom: 8px; }
+    .countdown-ring { position: relative; width: 96px; height: 96px; animation: countdown-pulse 1s ease-in-out infinite; }
+    @keyframes countdown-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+    .countdown-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
+    .countdown-ring .ring-bg { fill: rgba(255,255,255,0.9); stroke: rgba(255,255,255,0.9); stroke-width: 8; }
+    .countdown-ring .ring-fg { fill: none; stroke: #FF4D6D; stroke-width: 8; stroke-linecap: round; }
+    .countdown-number { position: absolute; inset: 0; display: grid; place-items: center; font-size: 40px; font-weight: 900; color: #FF4D6D; letter-spacing: -0.03em; }
+    .countdown-text { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; color: #64748b; }
+
     /* Winner */
-    .winner-card {
-      max-width: 28rem; margin: 0 auto;
-      padding: 1.25rem;
-      background: rgba(255,255,255,0.95);
-      border-radius: 1.75rem;
-      box-shadow: 0 24px 60px -20px rgba(255,77,109,0.6);
-      animation: winner-in 320ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes winner-in {
-      from { opacity: 0; transform: translateY(60px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    .winner-card { max-width: 28rem; margin: 0 auto; padding: 1.25rem; background: rgba(255,255,255,0.95); border-radius: 1.75rem; box-shadow: 0 24px 60px -20px rgba(255,77,109,0.6); animation: winner-in 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes winner-in { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
     .winner-header { display: flex; align-items: center; gap: 1rem; }
     .winner-dot { width: 48px; height: 48px; flex-shrink: 0; border-radius: 9999px; box-shadow: 0 0 0 4px #fff, 0 0 24px currentColor; }
     .winner-label { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #94a3b8; margin: 0; }
@@ -247,9 +96,7 @@
     .winner-actions .btn-cta { flex: 1; font-size: 1rem; padding: 0.875rem 1rem; border-radius: 1rem; }
     .winner-actions .btn-icon { width: 52px; height: 52px; background: #f1f5f9; border-radius: 1rem; box-shadow: none; }
 
-    /* ============================================================
-       MARKERS
-       ============================================================ */
+    /* MARKERS */
     .marker { position: absolute; pointer-events: none; z-index: 10; transform: translate(-50%, -50%); transition: opacity 220ms ease-out; will-change: left, top; }
     .marker.dimmed { opacity: 0.32; }
     .marker-inner { position: relative; width: 84px; height: 84px; animation: pop-in 220ms ease-out; transition: width 200ms ease-out, height 200ms ease-out; }
@@ -269,9 +116,7 @@
     @keyframes pop-in { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
     @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-    /* ============================================================
-       TRUTH OR DARE
-       ============================================================ */
+    /* TRUTH OR DARE */
     .tod-scroll { min-height: 100%; padding: 0 1.25rem 2rem; }
     .category-tab { flex: 1; padding: 10px 12px; border-radius: 1rem; font-size: 13px; font-weight: 800; background: #fff; color: #64748b; box-shadow: 0 10px 24px -20px rgba(15,23,42,0.8); border: none; transition: background 160ms, color 160ms, transform 120ms; }
     .category-tab:active { transform: scale(0.95); }
@@ -297,9 +142,7 @@
     .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-secondary svg { width: 16px; height: 16px; stroke-width: 2.8; }
 
-    /* ============================================================
-       YES / NO
-       ============================================================ */
+    /* YES / NO */
     .yn-wrap { min-height: 100%; display: flex; flex-direction: column; }
     .yn-display { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 260px; padding: 0 1.5rem; }
     .yn-thinking { display: grid; place-items: center; width: 176px; height: 176px; border-radius: 9999px; background: #fff; box-shadow: 0 24px 60px -28px rgba(15,23,42,0.6); font-size: 3rem; font-weight: 900; color: #cbd5e1; animation: wiggle 0.6s ease-in-out infinite; }
@@ -312,9 +155,7 @@
     .yn-no  { background: linear-gradient(135deg, #FF4D6D, #FF8A3D); }
     .yn-tally { margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #94a3b8; }
 
-    /* ============================================================
-       SETTINGS
-       ============================================================ */
+    /* SETTINGS */
     .settings-row { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #fff; border-radius: 1.5rem; box-shadow: 0 14px 34px -26px rgba(15,23,42,0.7); }
     .settings-icon { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 1rem; background: #FFF0EB; color: #FF4D6D; }
     .settings-icon svg { width: 20px; height: 20px; stroke-width: 2.6; }
@@ -325,23 +166,20 @@
     .switch[aria-checked="true"] { background: #FF4D6D; }
     .switch[aria-checked="true"]::after { transform: translateX(20px); }
 
-    /* ============================================================
-       UTILITIES
-       ============================================================ */
+    /* UTILITIES */
     .flex { display: flex; } .items-center { align-items: center; } .justify-between { justify-content: space-between; }
     .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; } .flex-1 { flex: 1; } .flex-col { flex-direction: column; }
     .min-w-0 { min-width: 0; } .mt-1 { margin-top: 0.25rem; } .mt-2 { margin-top: 0.5rem; } .mt-3 { margin-top: 0.75rem; }
     .mt-5 { margin-top: 1.25rem; } .mt-6 { margin-top: 1.5rem; } .mt-7 { margin-top: 1.75rem; } .mt-8 { margin-top: 2rem; }
     .pb-2 { padding-bottom: 0.5rem; } .pb-3 { padding-bottom: 0.75rem; } .pb-10 { padding-bottom: 2.5rem; }
     .px-4 { padding-left: 1rem; padding-right: 1rem; } .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .relative { position: relative; }
-    .text-center { text-align: center; }
+    .relative { position: relative; } .text-center { text-align: center; }
     .max-w-md { max-width: 28rem; } .mx-auto { margin-left: auto; margin-right: auto; }
     .h-1 { height: 0.25rem; } .w-1 { width: 0.25rem; } .rounded-full { border-radius: 9999px; } .bg-slate-300 { background: #cbd5e1; }
 
     @media (prefers-reduced-motion: reduce) {
       .screen.active, .marker-inner, .winner-card, .yn-answer, .prompt-card { animation: none !important; }
-      .chooser-empty-icon, .yn-thinking { animation: none !important; }
+      .chooser-empty-icon, .yn-thinking, .countdown-ring { animation: none !important; }
       * { transition-duration: 0.01ms !important; }
     }
   </style>
@@ -349,7 +187,7 @@
 <body>
 <div id="app">
 
-  <!-- ============================================================ HOME ============================================================ -->
+  <!-- HOME -->
   <section class="screen active" data-screen="home">
     <div class="home-bg">
       <header class="home-header safe-top">
@@ -364,9 +202,7 @@
           <span class="home-brand">PickOne</span>
         </div>
         <div class="flex items-center gap-2">
-          <button id="home-sound-btn" class="btn-icon" aria-label="Toggle sound" aria-pressed="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-          </button>
+          <button id="home-sound-btn" class="btn-icon" aria-label="Toggle sound" aria-pressed="true"></button>
           <button data-nav="settings" class="btn-icon" aria-label="Open settings">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
@@ -412,7 +248,7 @@
     </div>
   </section>
 
-  <!-- ============================================================ CHOOSER ============================================================ -->
+  <!-- CHOOSER -->
   <section class="screen no-scroll" data-screen="chooser">
     <div id="chooser-surface" class="chooser-surface"></div>
     <div class="chooser-top">
@@ -432,16 +268,25 @@
       <div class="chooser-empty-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
       </div>
-      <p>One screen, many fingers. Last one standing gets picked.</p>
+      <p>One screen, many fingers. Place yours and let fate decide.</p>
     </div>
 
     <div class="chooser-bottom">
       <div id="chooser-notice" class="chooser-notice" style="display:none"></div>
-      <button id="chooser-choose-btn" class="btn-cta">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-        Choose for Me
-      </button>
+
+      <div id="chooser-countdown" class="chooser-countdown" style="display:none">
+        <div class="countdown-ring">
+          <svg viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="44"/>
+            <circle class="ring-fg" cx="50" cy="50" r="44" id="countdown-ring-fg"/>
+          </svg>
+          <span class="countdown-number" id="countdown-number">3</span>
+        </div>
+        <p class="countdown-text">Get ready</p>
+      </div>
+
       <div id="chooser-choosing" class="chooser-choosing" style="display:none">Picking a winner…</div>
+
       <div id="chooser-result" style="display:none">
         <div class="winner-card">
           <div class="winner-header">
@@ -463,7 +308,7 @@
     <canvas id="chooser-confetti" class="chooser-confetti"></canvas>
   </section>
 
-  <!-- ============================================================ TRUTH OR DARE ============================================================ -->
+  <!-- TRUTH OR DARE -->
   <section class="screen" data-screen="truth">
     <div class="tod-scroll safe-top">
       <header class="flex items-center gap-3 pb-3">
@@ -499,7 +344,7 @@
     </div>
   </section>
 
-  <!-- ============================================================ YES / NO ============================================================ -->
+  <!-- YES / NO -->
   <section class="screen" data-screen="yesno">
     <div class="yn-wrap safe-top">
       <header class="flex items-center gap-3 pb-3 px-4">
@@ -520,7 +365,7 @@
     </div>
   </section>
 
-  <!-- ============================================================ SETTINGS ============================================================ -->
+  <!-- SETTINGS -->
   <section class="screen" data-screen="settings">
     <div class="px-5 pb-10 safe-top max-w-md mx-auto">
       <header class="flex items-center gap-3 pb-3">
@@ -589,10 +434,21 @@ const PROMPTS = {
    STATE
    ============================================================== */
 const SETTINGS_KEY = 'pickone.settings.v1';
+const COUNTDOWN_MS = 2500;
 const state = {
   screen: 'home',
   settings: loadSettings(),
-  chooser: { phase: 'idle', pointers: new Map(), markerEls: new Map(), snapshot: [], snapshotEls: [], highlightIndex: -1, winner: null, animRafId: null },
+  chooser: {
+    phase: 'idle',
+    pointers: new Map(),
+    markerEls: new Map(),
+    snapshot: [],
+    snapshotEls: [],
+    highlightIndex: -1,
+    winner: null,
+    animRafId: null,
+    countdown: { rafId: null, startedAt: 0, total: COUNTDOWN_MS, lastNumber: null },
+  },
   truth: { category: 'party', mode: null, prompt: null, lastPrompt: null },
   yesno: { stage: 'idle', answer: null, tally: { yes: 0, no: 0 }, timer: null },
 };
@@ -707,6 +563,85 @@ function createMarkerElement(p) {
 }
 
 /* ==============================================================
+   CHOOSER — COUNTDOWN
+   ============================================================== */
+const RING_CIRCUMFERENCE = 2 * Math.PI * 44;
+
+function showCountdownUI() {
+  const el = document.getElementById('chooser-countdown');
+  if (el) el.style.display = 'flex';
+}
+function hideCountdownUI() {
+  const el = document.getElementById('chooser-countdown');
+  if (el) el.style.display = 'none';
+}
+
+function startCountdown() {
+  const c = state.chooser;
+  if (c.phase !== 'idle') return;
+  if (c.pointers.size === 0) { cancelCountdown(); return; }
+
+  const now = performance.now();
+
+  // If already running, just reset the timer (gives latecomers more time)
+  if (c.countdown.rafId) {
+    c.countdown.startedAt = now;
+    c.countdown.lastNumber = null;
+    return;
+  }
+
+  c.countdown.startedAt = now;
+  c.countdown.lastNumber = null;
+  showCountdownUI();
+
+  const fgEl = document.getElementById('countdown-ring-fg');
+  const numEl = document.getElementById('countdown-number');
+  if (fgEl) fgEl.style.strokeDasharray = String(RING_CIRCUMFERENCE);
+
+  const tick = (timestamp) => {
+    if (state.chooser.phase !== 'idle') {
+      c.countdown.rafId = null;
+      hideCountdownUI();
+      return;
+    }
+    const elapsed = timestamp - c.countdown.startedAt;
+    const remaining = Math.max(0, c.countdown.total - elapsed);
+
+    // Ring fills up as time runs out
+    if (fgEl) {
+      fgEl.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (remaining / c.countdown.total));
+    }
+
+    // Number: 3 → 2 → 1
+    const num = Math.max(1, Math.ceil(remaining / 1000));
+    if (num !== c.countdown.lastNumber) {
+      c.countdown.lastNumber = num;
+      if (numEl) numEl.textContent = String(num);
+      if (state.settings.haptics) vibrate(8);
+    }
+
+    if (remaining > 0) {
+      c.countdown.rafId = requestAnimationFrame(tick);
+    } else {
+      c.countdown.rafId = null;
+      hideCountdownUI();
+      if (state.chooser.pointers.size >= 1) startChoosing();
+    }
+  };
+  c.countdown.rafId = requestAnimationFrame(tick);
+}
+
+function cancelCountdown() {
+  const c = state.chooser;
+  if (c.countdown.rafId) {
+    cancelAnimationFrame(c.countdown.rafId);
+    c.countdown.rafId = null;
+  }
+  c.countdown.lastNumber = null;
+  hideCountdownUI();
+}
+
+/* ==============================================================
    CHOOSER — UI
    ============================================================== */
 function updateChooserUI() {
@@ -714,24 +649,29 @@ function updateChooserUI() {
   const count = c.pointers.size;
   document.getElementById('chooser-count').textContent = `${count} ${count === 1 ? 'finger' : 'fingers'}`;
   const instr = document.getElementById('chooser-instruction');
-  const chooseBtn = document.getElementById('chooser-choose-btn');
   const choosing = document.getElementById('chooser-choosing');
   const result = document.getElementById('chooser-result');
   const empty = document.getElementById('chooser-empty');
 
   if (c.phase === 'idle') {
-    instr.textContent = count === 0 ? 'Everyone, place one finger on the screen' : count === 1 ? 'One finger down — add more for a real pick' : 'Tap "Choose for Me" when everyone is ready';
-    chooseBtn.style.display = ''; chooseBtn.disabled = count === 0;
-    choosing.style.display = 'none'; result.style.display = 'none';
+    instr.textContent = count === 0
+      ? 'Everyone, place one finger on the screen'
+      : count === 1
+        ? 'One finger down — add more for a real pick'
+        : 'Get ready — picking soon…';
+    choosing.style.display = 'none';
+    result.style.display = 'none';
     empty.style.display = count === 0 ? '' : 'none';
   } else if (c.phase === 'choosing') {
     instr.textContent = 'Choosing…';
-    chooseBtn.style.display = 'none'; choosing.style.display = '';
-    result.style.display = 'none'; empty.style.display = 'none';
+    choosing.style.display = '';
+    result.style.display = 'none';
+    empty.style.display = 'none';
   } else if (c.phase === 'result') {
     instr.textContent = 'Winner locked in';
-    chooseBtn.style.display = 'none'; choosing.style.display = 'none';
-    result.style.display = ''; empty.style.display = 'none';
+    choosing.style.display = 'none';
+    result.style.display = '';
+    empty.style.display = 'none';
   }
 }
 function showNotice(msg) { const n = document.getElementById('chooser-notice'); if (n) { n.textContent = msg; n.style.display = ''; } }
@@ -742,6 +682,7 @@ function hideNotice() { const n = document.getElementById('chooser-notice'); if 
    ============================================================== */
 function resetChooser() {
   const c = state.chooser;
+  cancelCountdown();
   if (c.animRafId) { cancelAnimationFrame(c.animRafId); c.animRafId = null; }
   c.markerEls.forEach((el) => el.remove()); c.markerEls.clear();
   c.pointers.clear(); c.snapshot = []; c.snapshotEls = []; c.highlightIndex = -1; c.winner = null;
@@ -760,6 +701,7 @@ function attachChooserHandlers() {
   surface.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     const c = state.chooser;
+    if (c.phase !== 'idle') return; // ignore new fingers during choosing/result
     if (c.pointers.has(e.pointerId)) return;
     try { surface.setPointerCapture(e.pointerId); } catch {}
     const rect = surface.getBoundingClientRect();
@@ -769,8 +711,14 @@ function attachChooserHandlers() {
     const color = palette[secureRandomInt(palette.length)];
     const p = { pointerId: e.pointerId, x: e.clientX - rect.left, y: e.clientY - rect.top, color: color.hex, colorName: color.name };
     c.pointers.set(e.pointerId, p);
-    if (c.phase === 'idle') { const el = createMarkerElement(p); surface.appendChild(el); c.markerEls.set(e.pointerId, el); }
-    hideNotice(); updateChooserUI(); sfx.tap();
+    const el = createMarkerElement(p);
+    surface.appendChild(el);
+    c.markerEls.set(e.pointerId, el);
+    hideNotice();
+    updateChooserUI();
+    sfx.tap();
+    // Start (or reset) the auto-selection countdown
+    startCountdown();
   });
 
   surface.addEventListener('pointermove', (e) => {
@@ -786,7 +734,13 @@ function attachChooserHandlers() {
     const c = state.chooser;
     if (!c.pointers.has(e.pointerId)) return;
     c.pointers.delete(e.pointerId);
-    if (c.phase === 'idle') { const el = c.markerEls.get(e.pointerId); if (el) { el.remove(); c.markerEls.delete(e.pointerId); } updateChooserUI(); }
+    if (c.phase === 'idle') {
+      const el = c.markerEls.get(e.pointerId);
+      if (el) { el.remove(); c.markerEls.delete(e.pointerId); }
+      updateChooserUI();
+      // If the last finger lifted, stop the countdown
+      if (c.pointers.size === 0) cancelCountdown();
+    }
   };
   surface.addEventListener('pointerup', onEnd);
   surface.addEventListener('pointercancel', onEnd);
@@ -800,9 +754,11 @@ function attachChooserHandlers() {
 function startChoosing() {
   const c = state.chooser;
   if (c.phase !== 'idle') return;
+  cancelCountdown();
+
   const participants = Array.from(c.pointers.values());
   if (participants.length === 0) { showNotice('Place at least one finger on the screen to pick.'); return; }
-  hideNotice();
+
   c.snapshot = participants;
   c.snapshotEls = participants.map((p) => c.markerEls.get(p.pointerId)).filter(Boolean);
   c.highlightIndex = -1; c.winner = null; c.phase = 'choosing'; updateChooserUI();
@@ -846,11 +802,14 @@ function finishRound(winnerIndex) {
 function playAgain() {
   const c = state.chooser;
   if (c.animRafId) { cancelAnimationFrame(c.animRafId); c.animRafId = null; }
+  cancelCountdown();
   c.markerEls.forEach((el) => el.remove()); c.markerEls.clear();
   c.phase = 'idle'; c.snapshot = []; c.snapshotEls = []; c.highlightIndex = -1; c.winner = null;
   const surface = document.getElementById('chooser-surface');
   if (surface) { for (const p of c.pointers.values()) { const el = createMarkerElement(p); surface.appendChild(el); c.markerEls.set(p.pointerId, el); } }
   hideNotice(); hideConfetti(); updateChooserUI();
+  // Fingers still down? Start a fresh countdown so the next round happens automatically.
+  if (c.pointers.size > 0) startCountdown();
 }
 
 /* ==============================================================
@@ -980,7 +939,6 @@ function boot() {
 
   attachChooserHandlers();
   document.getElementById('chooser-back').addEventListener('click', () => showScreen('home'));
-  document.getElementById('chooser-choose-btn').addEventListener('click', () => { sfx.unlock(); startChoosing(); });
   document.getElementById('play-again-btn').addEventListener('click', () => { sfx.unlock(); playAgain(); });
   document.getElementById('winner-home-btn').addEventListener('click', () => showScreen('home'));
 
